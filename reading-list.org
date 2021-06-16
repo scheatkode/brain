@@ -1,0 +1,4 @@
+https://laconicml.com/computer-science-engineer-mit-university/
+https://youtu.be/X48VuDVv0do
+https://blog.alexellis.io/bare-metal-kubernetes-with-k3s/
+https://docs.microsoft.com/en-gb/windows-server/
