@@ -1,0 +1,5 @@
+#+TITLE:        How someone built their own SAAS
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+
+Check [[https://www.reddit.com/r/startups/comments/gmrgh0/a_stepbystep_guide_of_how_i_would_build_a_saas/][this]] out for someone who built their own SAAS.
