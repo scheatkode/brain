@@ -1,0 +1,85 @@
+#+TITLE:       SSL/TLS certificate management
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Fix for LanmanWorkstation service after disabling SMBv1
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+An  unexpected expiration  of  a  server certificate  can  cause  a number  of
+problems for users, customers, and the like, they may not be able to establish
+a secure connection with the affected server, authentication errors may arise,
+annoying   notifications  may   appear   in  a   browser,   when  using   LDAP
+authentication, and the such. Below is how to check and get notified about the
+expiration date of an SSL/TLS certificate.
+
+* Get the expiration date of an SSL certificate
+
+  Sometimes, automatic certificate renewal fails,  hence the need for a custom
+  script to  check for SSL  expiry dates on servers  and notify when  they are
+  about to expire, using only PowerShell.
+
+  To  check for  the expiration  dates of  certificates used  by cryptographic
+  services on  the domain servers  as well  as normal machines,  the following
+  command does the trick :
+
+  #+begin_src powershell
+Get-ChildItem -Path cert:
+  #+end_src
+
+  PowerShell 3.0 onwards has a special =-ExpiringInDays= argument :
+
+  #+begin_src powershell
+Get-ChildItem -Path cert: -Recurse -ExpiringInDays 30
+  #+end_src
+
+  In PowerShell 2.0, the samme command looks like this :
+
+  #+begin_src powershell
+Get-ChildItem                                  `
+   -Path cert:                                 `
+   -Recurse                                    `
+| Where-Object {                               `
+        $_.NotAfter -le (Get-Date).AddDays(30) `
+   -and $_.NotAfter -gt (Get-Date)             `
+}                                              `
+| Select-Object Thumbprint,Subject
+  #+end_src
+
+  To find  certificates that  will expire in  the next 30  days on  all domain
+  servers, use this PowerShell script :
+
+  #+begin_src powershell
+$LDAPFilter = '(&(objectCategory=computer)(operatingSystem=Windows Server*)' `
+            + ' (!serviceprincipalname=*MSClusterVirtualServer*)' `
+            + ' (!(userAccountControl:1.2.840.113556.1.4.803:=2)))'
+
+$Result = @()
+
+$Servers = Get-ADComputer           `
+   -Server     '<some-dc>'          `
+   -Credential '<some-credentials>' `
+   -LDAPFilter $LDAPFilter
+
+ForEach ($server in $Servers) {
+   $ErrorActionPreference = 'SilentlyContinue'
+
+   $certificates = ($server | Invoke-Command {
+      Get-ChildItem         `
+         -Path Cert:        `
+         -Recurse           `
+         -ExpiringInDays 30 `
+   })
+
+   ForEach ($certificate in $certificates) {
+      $Result += New-Object `
+         -TypeName PSObject `
+         -Property ([Ordered]@{
+            'Server'      = $server
+            'Certificate' = $certificate.Issuer;
+            'Expires'     = $certificate.NotAfter
+         })`
+   }
+}
+
+Write-Output $Result
+  #+end_src

@@ -1,0 +1,128 @@
+#+TITLE:       Move Windows 10 recovery partition
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Moving Windows 10 automatically created recovery partition
+#+STARTUP:     inlineimages align shrink
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+#+begin_center
+             [[file:../../_assets/xkcd/workaround.png]]
+#+end_center
+
+When using  Windows 10, 450MB Recovery  partition usually gets created  in the
+tail end of the disk. This is all  good and dandy, except when there is a need
+to extend  the system partition. This  can be tricky since  the aforementioned
+recovery partition gets in the way.
+
+When  dealing  with  this  predicament,  there  are  a  few  possibilities  to
+consider :
+
+1. Moving the partition (recommended)
+2. Removing the partition
+3. Converting the disk to dynamic
+
+* Moving the partition
+
+  According  to  [[https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/capture-and-apply-windows-system-and-recovery-partitions][Microsoft's  documentation]],  the recovery  partition  can  be
+  captured and applied elsewhere.
+
+  1. Use =dispart= to find current recovery partition and assign a driver letter
+     (eg. =O=) to it:
+
+     #+begin_src bat
+     DISKPART> list disk
+     DISKPART> select disk <number-of-disk>
+     DISKPART> list partition
+     DISKPART> select partition <number-of-partition>
+     DISKPART> assign letter=O
+     #+end_src
+
+  2. Create an image file from current recovery partition :
+
+     #+begin_src bat
+     DISM                                    ^
+        /Capture-Image                       ^
+        /ImageFile:C:\recovery-partition.wim ^
+        /CaptureDir:O:\                      ^
+        /Name:"Recovery"
+     #+end_src
+
+  3. (Optional) Delete the old recovery partition :
+
+     #+begin_src bat
+     DISKPART> select volume O DISKPART> delete partition override
+     #+end_src
+
+  4. Apply the created image to another partition (eg. =N=) that will become the
+     new  recovery partition.  That  is,  after you  have  made the  necessary
+     moving, resizing and recreating. The recommended way is to create a 500MB
+     partition /before/ the  system one; use whatever tools you  see fit at this
+     point, a live =gparted= works wonders in this case.
+
+     #+begin_src bat
+     DISM                                    ^
+        /Apply-Image                         ^
+        /ImageFile:C:\recovery-partition.wim ^
+        /Index:1                             ^
+        /ApplyDir:N:\
+     #+end_src
+
+  5. Register the location of the recovery tools :
+
+     #+begin_src bat
+     Reagentc /Disable
+     Reagentc /SetReImage /Path N:\Recovery\WindowsRE
+     Reagentc /Enable
+     #+end_src
+
+  6. Use =diskpart= to hide the recovery partition :
+
+     - For =UEFI= :
+
+        #+begin_src bat
+        DISKPART> select volume N
+        DISKPART> set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac"
+        DISKPART> gpt attributes=0x8000000000000001
+        DISKPART> remove
+        #+end_src
+
+     - For =BIOS= :
+
+        #+begin_src bat
+        DISKPART> select volume N
+        DISKPART> set id=27
+        DISKPART> remove
+        #+end_src
+
+  7. Reboot the computer for the new recovery partition to take effect.
+
+  8. (Optional) Further checks for the recovery partition :
+
+     a. Show the current status :
+
+        #+begin_src bat
+        Reagentc /Info
+        #+end_src
+
+     b. Specifies that Windows RE should start automatically the next time the
+        system starts :
+
+        #+begin_src bat
+        Reagentc /BootToRe
+        #+end_src
+
+     c. Reboot the computer and do your thing in Windows RE (eg. enter =cmd= and
+        run some tools)
+
+* Removing the partition
+
+  Deleting the partition  completely should cause no problem  since Windows 10
+  already has  built-in refresh features  to do a  factory reset. But  as with
+  everything  Microsoft-related, you're  never  sure; hence  why  this is  not
+  recommended.
+
+* Converting the disk to dynamic
+
+  It is possible  to create a partition that spans  across various spaces with
+  [[https://docs.microsoft.com/en-us/windows/desktop/FileIO/basic-and-dynamic-disks][dynamic disk]], which is  the analog of Linux's LVM. Just  convert the disk to
+  dynamic and extend the partition to any available space.

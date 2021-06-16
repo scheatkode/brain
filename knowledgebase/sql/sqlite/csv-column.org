@@ -1,0 +1,71 @@
+#+TITLE:       Dealing with comma-separated values in a column
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Extracting tags from a column with comma separated values
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+* The answer
+
+  For  quick reference  and copypasta,  the  explanation is  in the  following
+  sections.
+
+  #+begin_src sql
+WITH RECURSIVE neat(id, tag, etc) AS (
+     SELECT '<id-column>', '', '<other-column>' || ','
+     FROM   '<table>'
+     WHERE  '<id-column>' -- <id-column> exists and is not null
+
+     UNION ALL
+
+     SELECT id,
+            SUBSTR(etc, 0, INSTR(etc, ',')),
+            SUBSTR(etc,    INSTR(etc, ',') + 1)
+     FROM   neat
+     WHERE  etc <> ''
+) SELECT id, tag
+  FROM   neat
+  WHERE  tag <> '';
+  -- You can add GROUPBYs and ORDERBYs here
+  #+end_src
+
+* The problem
+
+  Consider this table named =pile=, which has an =INTEGER= column ="num"= and a =TEXT=
+  column ="letters"=, the latter containing comma-separated values:
+
+  #+begin_example
+        | num | letters |
+        |-----+---------|
+        |   1 | a,b,c   |
+        |   2 | c,d,e   |
+  #+end_example
+
+  We want to create a  new table — let's call it ="neat"= —  in which there is a
+  row for every combination of =num= and its corresponding values in =letters=:
+
+  #+begin_example
+        | id | tag |
+        |----+-----|
+        |  1 | a   |
+        |  1 | b   |
+        |  1 | c   |
+        |  2 | c   |
+        |  2 | d   |
+        |  2 | e   |
+  #+end_example
+
+  As wonderful as SQLite  is, one of its trade-offs is a lack  of a few useful
+  bells  and whistles  of MySQL/Postgres,  especially  when it  comes to  text
+  processing functions.  SQLite doesn't  have a =SPLIT=  function, so  I've long
+  assumed it would be impossible to solve this problem in pure SQLite.
+
+  However, I luckily  stumbled upon this brilliant solution  on [[http://github.com/samuelbosch][data scientist
+  Samuel Bosch]]'s  blog post, [[http://www.samuelbosch.com/2018/02/split-into-rows-sqlite.html][Selecting  comma separated data as  multiple rows
+  with SQLite]].
+
+  Bosch's solution uses  =WITH RECURSIVE=, =UNION ALL=, and the  =INSTR= function to
+  do the split and  tidying. I've adapted the example code  so that it applies
+  to our simplified, abstract example involving the =pile= and =neat= tables.
+
+  Another solution can be found [[https://gist.github.com/dekassegui/37ed82e52fa84de6d9c08da0d4a6eb92][here]].

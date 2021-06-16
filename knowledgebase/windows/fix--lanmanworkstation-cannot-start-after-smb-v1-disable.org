@@ -1,0 +1,74 @@
+#+TITLE:       Fix for LanmanWorkstation service
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Fix for LanmanWorkstation service after disabling SMBv1
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+Microsoft fucked  up and the  published an unfinished article  about disabling
+=SMBv1=.  Below is  a fix  to be  run in  PowerShell. The  computer needs  to be
+rebooted afterwards.
+
+#+begin_src powershell
+reg add                                                    `
+  HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation `
+  /t REG_MULTI_SZ                                          `
+  /v DependOnService                                       `
+  /d "Bowser\0MRxSmb20\0NSI\0"                             `
+  /f
+reg add                                           `
+  HKLM\SYSTEM\CurrentControlSet\services\mrxsmb10 `
+  /t REG_DWORD                                    `
+  /v Start                                        `
+  /d 4                                            `
+  /f
+
+Set-Service -StartupType Automatic -Name SessionEnv
+Set-Service -StartupType Automatic -Name Netlogon
+Set-Service -StartupType Automatic -Name LanmanWorkstation
+
+Restart-Computer -Force
+#+end_src
+
+Another, cleaner workaround to  disable the =SMBv1= on the SMB  client is to run
+the following commands :
+
+#+begin_src bat
+SC.EXE config lanmanworkstation depend= bowser/mrxsmb20/nsi
+SC.EXE config mrxsmb10 start= disabled
+#+end_src
+
+Either  way, to  better  way to  go  around  about this  is  to disable  =SMBv1=
+entirely. Which is done via the following command :
+
+#+begin_src powershell
+Disable-WindowsOptionalFeature `
+   -Online                     `
+   -FeatureName smb1protocol
+#+end_src
+
+An entire script that works on both  clients *and* servers is the following, the
+machine still needs to be rebooted afterwards :
+
+#+begin_src powershell
+Set-ItemProperty                                                                `
+   -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB1 `
+   -Type DWORD                                                                  `
+   -Value 0                                                                     `
+   -Force
+
+Set-SmbServerConfiguration    `
+   -EnableSMB1Protocol $false `
+   -Force
+
+Disable-WindowsOptionalFeature `
+   -Online                     `
+   -FeatureName "SMB1Protocol" `
+   -NoRestart
+#+end_src
+
+The previous script can be targeted using the following WMI Query :
+
+#+begin_src sql
+select * from Win32_ServerFeature where Name='SMB 1.0/CIFS File Sharing Support'
+#+end_src

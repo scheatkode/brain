@@ -1,0 +1,171 @@
+#+TITLE:       Windows Defender command reference
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Windows Defender disabling/enabling quick reference
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+#+begin_center
+                [[../../_assets/xkcd/virus-diagram.png]]
+#+end_center
+
+* Quick reference
+
+  For  /“administrative”/ purposes,  there  is sometimes  a  need to  completely
+  disable Windows Defender. This can easily be done in a few commands. The new
+  /Tamper Protection/  feature disallows changing Windows  Defender options from
+  the command line,  thus requiring to change that first  before attempting to
+  do anything.
+
+  #+begin_src powershell
+Set-MpPreference                              `
+  -DisableIntrusionPreventionSystem $true     `
+  -DisableIOAVProtection            $true     `
+  -DisableRealtimeMonitoring        $true     `
+  -DisableBehaviorMonitoring        $true     `
+  -DisableBlockAtFirstSeen          $true     `
+  -DisableScriptScanning            $true     `
+  -DisablePrivacyMode               $true     `
+  -DisableArchiveScanning           $true     `
+  -EnableControlledFolderAccess     Enabled   `
+  -MAPSReporting                    Disabled  `
+  -SubmitSamplesConsent             NeverSend `
+  -Force
+  #+end_src
+
+  To reverse the process, use this command :
+
+  #+begin_src powershell
+Set-MpPreference                                   `
+  -DisableIntrusionPreventionSystem $false         `
+  -DisableIOAVProtection            $false         `
+  -DisableRealtimeMonitoring        $false         `
+  -DisableBehaviorMonitoring        $false         `
+  -DisableBlockAtFirstSeen          $false         `
+  -DisableScriptScanning            $false         `
+  -DisablePrivacyMode               $false         `
+  -DisableArchiveScanning           $false         `
+  -EnableControlledFolderAccess     Disabled       `
+  -MAPSReporting                    Advanced       `
+  -SubmitSamplesConsent             SendAllSamples `
+  -Force
+  #+end_src
+
+* Full reference
+
+  For   a  more   in-depth  reference,   here   are  the   commands  used   to
+  trigger/configure different Windows Defender facets.
+
+** =Set-MpPreference=
+
+   Configures preferences for Windows defender scans and updates.
+
+   #+begin_src powershell
+Set-MpPreference
+   [-ExclusionPath <String[]>]
+   [-ExclusionExtension <String[]>]
+   [-ExclusionProcess <String[]>]
+   [-RealTimeScanDirection <ScanDirection>]
+   [-QuarantinePurgeItemsAfterDelay <UInt32>]
+   [-RemediationScheduleDay <Day>]
+   [-RemediationScheduleTime <DateTime>]
+   [-ReportingAdditionalActionTimeOut <UInt32>]
+   [-ReportingCriticalFailureTimeOut <UInt32>]
+   [-ReportingNonCriticalTimeOut <UInt32>]
+   [-ScanAvgCPULoadFactor <Byte>]
+   [-CheckForSignaturesBeforeRunningScan <Boolean>]
+   [-ScanPurgeItemsAfterDelay <UInt32>]
+   [-ScanOnlyIfIdleEnabled <Boolean>]
+   [-ScanParameters <ScanType>]
+   [-ScanScheduleDay <Day>]
+   [-ScanScheduleQuickScanTime <DateTime>]
+   [-ScanScheduleTime <DateTime>]
+   [-SignatureFirstAuGracePeriod <UInt32>]
+   [-SignatureAuGracePeriod <UInt32>]
+   [-SignatureDefinitionUpdateFileSharesSources <String>]
+   [-SignatureDisableUpdateOnStartupWithoutEngine <Boolean>]
+   [-SignatureFallbackOrder <String>]
+   [-SignatureScheduleDay <Day>]
+   [-SignatureScheduleTime <DateTime>]
+   [-SignatureUpdateCatchupInterval <UInt32>]
+   [-SignatureUpdateInterval <UInt32>]
+   [-MAPSReporting <MAPSReportingType>]
+   [-SubmitSamplesConsent <SubmitSamplesConsentType>]
+   [-DisableAutoExclusions <Boolean>]
+   [-DisablePrivacyMode <Boolean>]
+   [-RandomizeScheduleTaskTimes <Boolean>]
+   [-DisableBehaviorMonitoring <Boolean>]
+   [-DisableIntrusionPreventionSystem <Boolean>]
+   [-DisableIOAVProtection <Boolean>]
+   [-DisableRealtimeMonitoring <Boolean>]
+   [-DisableScriptScanning <Boolean>]
+   [-DisableArchiveScanning <Boolean>]
+   [-DisableCatchupFullScan <Boolean>]
+   [-DisableCatchupQuickScan <Boolean>]
+   [-DisableCpuThrottleOnIdleScans <Boolean>]
+   [-DisableEmailScanning <Boolean>]
+   [-DisableRemovableDriveScanning <Boolean>]
+   [-DisableRestorePoint <Boolean>]
+   [-DisableScanningMappedNetworkDrivesForFullScan <Boolean>]
+   [-DisableScanningNetworkFiles <Boolean>]
+   [-UILockdown <Boolean>]
+   [-ThreatIDDefaultAction_Ids <Int64[]>]
+   [-ThreatIDDefaultAction_Actions <ThreatAction[]>]
+   [-UnknownThreatDefaultAction <ThreatAction>]
+   [-LowThreatDefaultAction <ThreatAction>]
+   [-ModerateThreatDefaultAction <ThreatAction>]
+   [-HighThreatDefaultAction <ThreatAction>]
+   [-SevereThreatDefaultAction <ThreatAction>]
+   [-Force]
+   [-DisableBlockAtFirstSeen <Boolean>]
+   [-PUAProtection <PUAProtectionType>]
+   [-CimSession <CimSession[]>]
+   [-ThrottleLimit <Int32>]
+   [-AsJob]
+   [<CommonParameters>]
+   #+end_src
+
+*** Description
+
+    The =Set-MpPreference=  cmdlet configures  preferences for  Windows Defender
+    scans and updates.  You can modify exclusion file  name extensions, paths,
+    or processes, and  specify the default action for high,  moderate, and low
+    threat levels.
+
+**** Remediation values
+
+     The  following  table provides  remediation  action  values for  detected
+     threats at low, medium, high, and severe alert levels.
+
+    | Value | Action                                                  |
+    |-------+---------------------------------------------------------|
+    |     1 | Clean the detected threat.                              |
+    |     2 | Quarantine the detected threat.                         |
+    |     3 | Remove the detected threat.                             |
+    |     6 | Allow the detected threat.                              |
+    |     8 | Allow the user to determine the action to take.         |
+    |     9 | Do not take any action.                                 |
+    |    10 | Block the detected threat.                              |
+    |     0 | Apply action based on the Security Intelligence Update. |
+
+**** Examples
+
+***** Example 1 : Schedule to check for definition updates every day
+
+      This  command configures  preferences  to check  for definition  updates
+      every day.
+
+      #+begin_src powershell
+Set-MpPreference -SignatureScheduleDay Everyday
+      #+end_src
+
+***** Example 2 : Schedule a time of day to check for definition updates
+
+      This command configures preferences to  check for definition updates 120
+      minutes after midnight on days when it is scheduled to check.
+
+      #+begin_src powershell
+Set-MpPreference -SignatureScheduleTime 120
+      #+end_src
+
+**** Parameters

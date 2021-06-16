@@ -1,0 +1,85 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Re-establishing trust relationship with Domain Controllers
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  Re-establishing trust relationship with Domain Controllers
+#+PROPERTY:     header-args :tangle no :comments link :results none
+# -- END_METADATA -------------------------------------------------------------
+
+Every  computer joined  to  an Active  Directory domain  has  its own  special
+account in AD, meaning each computer  actually has a "/username/" and a password
+of its own. The  username is the computer name followed by  a dollar sign (/$/).
+The  password   is  automatically  negotiated  between   computer  and  domain
+controller when you join the computer to  AD and is renegotiated on a periodic
+basis thereafter. This password is called machine password.
+
+For this or other reason, sometimes one  needs to revert a member computer (or
+an  AD) to  a previous  state  in time.  If  computer and  AD changed  machine
+password meanwhile,  and you  restored only  one of them  to the  state before
+that, passwords are out of sync. Users can no longer log in on that computer.
+
+This can also  cause some =ACCESS_DENIED= and obscure LDAP  errors, and can also
+prevent invoking =gpupdate= successfully.
+
+A  usual remedy  is to  log-in using  a local  administrator account,  un-join
+computer from the domain,  and re-join it. Not the most  elegant of ways since
+it  involves  at  least  two   restarts,  possible  removal  of  all  deployed
+applications and their re-installation etc. Fortunately, it can be done with a
+bit less fuss.
+
+* /Maybe not so/ historical
+
+  In the  days before PowerShell was  a thing, Systems Administrators  used to
+  resolve  this issue  using the  =nltest= and  =netdom= commands.  The latter  is
+  missing on  Windows workstations and  is available on Windows  servers only.
+  Fortunately, one can  copy the =netdom.exe= from the  server's =System32= folder
+  and it should work fine on any Windows computer.
+
+  To make  sure this is the  actual problem we're dealing  with, the following
+  command should return an =ACCESS_DENIED= error.
+
+  #+begin_src bat
+nltest /sc_verify:<your-domain>
+  #+end_src
+
+  This is where the =netdom= utility comes  to the rescue. But it will refuse to
+  work if there  are existing connections to the domain  controller other than
+  the domain administrative account that will be used to restore the trust. If
+  that is the  case, start an elevated  prompt and use the =net  use= command to
+  delete all existing connections to the server.
+
+  After which, restore the domain trust happens with the following command.
+
+  #+begin_src bat
+netdom resetpwd                    `
+       /server:<domain-controller> `
+       /UserD:<domain\admin>       `
+       /PasswordD:<admin-password>
+  #+end_src
+
+  The operation takes  a few seconds and, once it's  done, re-run the previous
+  command to check if the trust has been re-established.
+
+  #+begin_src bat
+nltest /sc_verify:<your-domain>
+  #+end_src
+
+* The modern way
+
+  The historical method is still worth trying but the following one is cleaner
+  and doesn't require adding random executable files.
+
+  Checking for the trust relationship is a simple command which returns either
+  =True= or =False=; usually =False= when there is an issue.
+
+  #+begin_src powershell
+Test-ComputerSecureChannel
+  #+end_src
+
+  This is quickly resolvable using the following command.
+
+  #+begin_src powershell
+Reset-ComputerMachinePassword      `
+  -Server <Domain Controller name> `
+  -Credential (Get-Credential)
+  #+end_src

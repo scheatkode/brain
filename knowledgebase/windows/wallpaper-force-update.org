@@ -1,0 +1,21 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Wallpaper force update
+#+TITLE:
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  A command to be ran to force update the current user's bg
+#+STARTUP:
+#+OPTIONS:      html-postamble:nil d:nil num:nil
+#+BABEL:        :cache yes
+#+PROPERTY:     header-args :comments none :results output silent :padline no
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+# -- END_METADATA ------------------------------------------------------------
+
+The current  user's wallpaper and  background color  can be updated  using the
+following command. This is useful when changing them via *GPO* or the *registry*.
+
+#+begin_src cmd
+  RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters
+#+end_src

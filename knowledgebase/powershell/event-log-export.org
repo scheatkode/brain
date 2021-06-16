@@ -1,0 +1,27 @@
+#+TITLE:        PowerShell Get-WinEvent
+#+AUTHOR:       Cheatcode
+#+EMAIL:        cheat.code@hotmail.com
+#+DESCRIPTION:  Getting all system event logs
+#+PROPERTY:     header-args :tangle no :comments link :results none
+
+The below command exports  the entirety of the Windows Event  Log. This can be
+useful  when dealing  with big  amounts of  data and  when Windows  refuses to
+export, stating the below error.
+
+#+begin_example
+Event Viewer cannot open  the event log or custom view.  Verify that Event Log
+service is running or query is  too long. The operation completed successfully
+(13)
+#+end_example
+
+#+begin_src powershell
+Get-WinEvent                                               `
+    -ListLog *                                             `
+| % -Parallel {                                            `
+    Get-WinEvent                                           `
+        -LogName "$($_.logname)"                           `
+    | Export-Csv                                           `
+        -Encoding utf8                                     `
+        ".\logs\$($_.logname -replace "[^\w\s-]",'_').csv" `
+}
+#+end_src

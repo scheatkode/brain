@@ -1,0 +1,103 @@
+#+TITLE:       Windows Server Evaluation Activation
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Activating a Windows Server evaluation to full edition
+#+OPTIONS:     html-postamble:nil d:nil num:nil :results nil
+#+PROPERTY:    header-args :tangle no :comments no :results none
+
+To activate a Windows Server, use the following =DISM= commands.
+
+* Verification
+
+  To verify  the whether the current  running Windows server is  an evaluation
+  edition, run an *elevated* command prompt and execute the following command.
+
+  #+begin_src bat
+DISM /Online /Get-CurrentEdition
+  #+end_src
+
+  As seen below, the running version is a Standard Server in Evaluation mode.
+
+  #+begin_example
+    Deployment Image Servicing and Management Tool
+    Version:  10.0.14393.0
+
+    Image Version: 10.0.14393.0
+
+    Current edition is:
+
+    Current Edition ServerStandardEval
+
+    The operation completed successfully
+  #+end_example
+
+
+* Activation path
+
+  Next, verify the possible target editions after activation.
+
+  #+begin_src bat
+DISM /Online /Get-TargetEditions
+  #+end_src
+
+  As  seen below,  an example  =ServerStandardEval= edition  can be  upgraded to
+  =ServerDatacenter= or =ServerStandard=.
+
+  #+begin_example
+    Editions that can be upgraded to:
+
+    Target Edition : ServerStandard
+    Target Edition : ServerDatacenter
+  #+end_example
+
+* Upgrade restrictions
+
+  Here are some  upgrade restrictions that need to be  known before converting
+  to the full edition.
+
+  - Only the  full GUI (/Desktop experience/)  version of Windows server  can be
+    converted.   Server Core  on Nano  Server cannot  be activated  using this
+    method.
+
+  - A working  Active Directory Server cannot  be upgraded for it  needs to be
+    demoted and the role uninstalled first.
+
+  - It is impossible to upgrade  from the Windows Server Datacenter Evaluation
+    to the Windows Server Standard Full.
+
+* Converting to Licensed version
+
+  To upgrade  Windows Server to  a full version, a  public KMS (GVLK)  key for
+  Windows Server  is required.   The conversion is  performed via  the command
+  prompt using =DISM=.  For instance, upgrade an Evaluation edition  to a Retail
+  version of Windows Server 2016 Standard is done via the following command.
+
+  #+begin_src bat
+DISM /Online /Set-Edition:ServerStandard /ProductKey:WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY /AcceptEULA
+  #+end_src
+
+* Commands for Windows Server 2019
+
+  The following are the commands for  a Windows Server 2019 with the necessary
+  product keys.
+
+  - For Server Standard :
+
+  #+begin_src bat
+DISM /Online /Set-Edition:ServerStandard /ProductKey:N69G4-B89J2-4G8F4-WWYCC-J464C /AcceptEULA
+  #+end_src
+
+  - For Server Datacenter :
+
+  #+begin_src bat
+DISM /Online /Set-Edition:ServerDatacenter /ProductKey:WMDGN-G9PQG-XVVXX-R3X43-63DFG /AcceptEULA
+  #+end_src
+
+* Product key table
+
+ | Server edition                  | Product Key                   |
+ |---------------------------------+-------------------------------|
+ | Windows Server 2012 R2 Standard | D2N9P-3P6X9-2R39C-7RTCD-MDVJX |
+ | Windows Server 2016 Standard    | WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY |
+ | Windows Server 2019 Datacenter  | WMDGN-G9PQG-XVVXX-R3X43-63DFG |
+ | Windows Server 2019 Standard    | N69G4-B89J2-4G8F4-WWYCC-J464C |

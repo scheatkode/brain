@@ -1,0 +1,19 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Converting VM disks
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  Converting VM disks using qemu-img
+#+STARTUP:      indent lognoteclock-out
+#+OPTIONS:      html-postamble:nil toc:nil title:nil d:nil num:nil :results nil
+#+BABEL:        :cache yes
+#+PROPERTY:     header-args :tangle no :comments link :results none
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+# -- END_METADATA -------------------------------------------------------------
+
+* Converting to *vhdx*
+
+  #+begin_src 
+  qemu-img convert image.img -O vhdx -o subformat=dynamic image.vhdx
+  #+end_src

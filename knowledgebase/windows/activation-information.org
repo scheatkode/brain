@@ -1,0 +1,167 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Activation information
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  Getting information on the activation state of Windows
+#+STARTUP:
+#+OPTIONS:      html-postamble:nil toc:nil title:nil d:nil num:nil :results nil
+#+BABEL:        :cache yes
+#+PROPERTY:     header-args :tangle no :comments no :results none
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+# -- END_METADATA -------------------------------------------------------------
+
+The Key Management Service (KMS) is used to activate Windows operating systems
+and  allows automatic  activation of  products such  as Microsoft  Windows and
+Microsoft Office. When  a supported version of Microsoft  Windows or Microsoft
+Office is installed,  computer systems often attempt to locate  the KMS server
+on the network and automatically  activate the license. Key Management Service
+activations are typically  valid for 180 days, during which  time the computer
+periodically contacts the KMS server to renew the computer’s activation.
+
+Users sometimes receive the error code  =0xC004f074= when trying to activate the
+Windows operating system. This is a  Windows activation error that occurs when
+Windows  cannot  reach   the  activation  service  or   the  company’s  system
+administrator (or the key management service is not available). This error can
+be caused by differences  between the KMS client and KMS  hosts, and can occur
+during or after Windows installation. Error  code =0xC004f074= can also occur if
+a user  has downloaded an illegal  (pirated) version of the  Windows operating
+system.
+
+So,  when shit  happens and  there's  a need  to  check the  current state  of
+Window's activation, these couple of commands might help.
+
+* View activation, license, and expiration date information
+
+  To display very  basic license and activation information  about the current
+  system,  run the  following  command.   This command  tells  the edition  of
+  Windows, part of  the product key so  it can be identified,  and whether the
+  system is activated.
+
+  #+begin_src bat
+    SLMGR.VBS /dli
+  #+end_src
+
+  To display  more detailed license  information including the  activation ID,
+  installation ID, and other detailsrun the following command:
+
+  #+begin_src bat
+    SLMGR.VBS /dlv
+  #+end_src
+
+* View the license expiration date
+
+  To display  the expiration date  of the  current license, run  the following
+  command.   This  is  only  useful  for  Windows  system  activated  from  an
+  organization’s KMS server,  as retail licenses and  multiple activation keys
+  result  in a  perpetual license  that won’t  expire. If  no product  key was
+  provided at all, it’ll return an error message.
+
+  #+begin_src bat
+    SLMGR.VBS /xpr
+  #+end_src
+
+* Uninstall the Product Key
+
+  The product key can be removedfrom the current Windows system with =SLMGR=. If
+  the below  command is  run and  the computer  restarted, the  Windows system
+  won't have a product key and will be in an unactivated, unlicensed state.
+
+  If Windows  was installed from  a retail license and  that license is  to be
+  used  on  another  computer,  this   removes  the  licens  from  the  source
+  computer. It can also be useful when giving away the computer. However, most
+  Windows licenses  are tied to  the computer they came  with, unless it  is a
+  purchased boxed copy.
+
+  To remove the current product key, the following command must be run and the
+  computer restarted :
+
+  #+begin_src bat
+    SLMGR.VBS /upk
+  #+end_src
+
+  Windows  also stores  the product  key in  the registry,  as it’s  sometimes
+  necessary for the key to be in the registry when setting up the computer. If
+  the product key  is removed, the below  command should be ran  to ensure the
+  key is removed from the registry as  well. This is also to make sure whoever
+  uses the computer is unable to retrieve the key.
+
+  #+begin_src bat
+    SLMGR.VBS /cpky
+  #+end_src
+
+* Set or change the Product Key
+
+  =SLMGR.VBS= can also be used to enter a new product key. If the Windows system
+  already has a product key, using the below command will silently replace the
+  old product key with the one provided.
+
+  The command  will check the provided  key to ensure it's  valid before using
+  it. Microsoft advises restarting the computer after running this command.
+
+  It can also be  changed from the Activation screen in  the Settings app, but
+  this command has the advantage of being runnable from the command line.
+
+  #+begin_src bat
+    SLMGR.VBS /ipk XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+  #+end_src
+
+* Activating Windows online
+
+  In order  to force Windows  to attempt  an online activation,  the following
+  command needs to  be ran, attempting activation with  Microsoft's servers or
+  KMS, depending on the current setup.
+
+  #+begin_src bat
+    SLMGR.VBS /ato
+  #+end_src
+
+* Activating Windows offline
+
+  =SLMGR.VBS= allows performing an  offline activation. Therefore, the following
+  command can be used to get an installation ID.
+
+  #+begin_src bat
+    SLMGR.VBS /dti
+  #+end_src
+
+  A  confirmation ID  is now  needed  to activate  the system  using a  phone,
+  calling  the   [[https://support.microsoft.com/en-us/kb/950929][Microsoft  Product   Activation  Center]]  and   providing  the
+  installation ID to retrieve an activation ID.
+
+  To enter the confirmation ID, the following command need to be ran.
+
+  #+begin_src bat
+    SLMGR.VBS /atp ACTIVATIONID
+  #+end_src
+
+* Extending the Activation Timer
+
+  Some Windows  systems provide  a limited  time used as  a free  trial before
+  requiring a product key. To extend this trial period and reset it back to 30
+  days,  the following  command  can turn  out to  be  useful. As  Microsoft's
+  documentation  puts it,  this command  puts it,  this command  “ /resets  the
+  activation timers/ ”.
+
+  This  command can  only  be used  so  many  times, so  it  is impossible  to
+  indefinitely extend  the trial period.  The number of  times it can  be used
+  depends  on the  /rearm  count/,  which can  be  viewed  using =SLMGR.VBS  /dlv=
+  command.
+
+  This solution seems to  no longer work on Windows 10,  which is very lenient
+  if not provided a product key.
+
+  #+begin_src bat
+    SLMGR.VBS /rearm
+  #+end_src
+
+
+* Remote computers
+
+  =SLMGR.VBS=  can be  ran  on remote  computers as  well,  using the  following
+  syntax.
+
+  #+begin_src bat
+    SLMGR.VBS computername username password /option
+  #+end_src

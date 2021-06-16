@@ -1,0 +1,57 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Interpolation numérique polynomiale
+#+AUTHOR:       Farouk HADDAD
+#+EMAIL:        farouk.haddad.consultant@gmail.com
+#+DESCRIPTION:  Interpolation polynamiale en analyse numérique
+#+STARTUP:      latexpreview
+#+OPTIONS:      html-postamble:nil d:nil num:nil
+#+BABEL:        :cache yes
+#+PROPERTY:     header-args :comments none :results output silent :padline no
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{mathtools}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{amsfonts}
+#+LATEX_HEADER: \usepackage{amssymb}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+# -- END_METADATA ------------------------------------------------------------
+
+* TODO Définition
+
+  En mathématiques, en analyse  numérique, l'*interpolation polynomiale* est une
+  technique d'interpolation d'un ensemble de  données ou d'une fonction par un
+  polynôme. En d'autres termes, étant donné un ensemble de points (obtenu, par
+  exemple, à la suite d'une expérience),  on cherche un polynôme qui passe par
+  tous ces points, et éventuellement  vérifie d'autres conditions, ce degré si
+  possible le plus bas.
+
+  Le résultat n'est toutefois pas toujours  à la hauteur des espérances : dans
+  le cas  de l'interpolation  lagrangienne, par exemple,  le choix  des points
+  d'interpolation est  critique. L'interpolation  en des  points régulièrement
+  espacés  peut fort  bien diverger  même pour  des fonctions  très régulières
+  (phénomène de Runge).
+  
+  Dans  la version  la  plus simple  (interpolation  lagrangienne), on  impose
+  simplement que le polynôme passe par tous les points donnés.  Étant donné un
+  ensemble de $n + 1$ points (ou couples de nombres réels) ($x_{i}$,$y_{i}$ où
+  les $x_{i}$ sont distincts deux à deux),  on cherche à trouver un polynôme à
+  coefficients réels $P$, et de degré $n$ au plus qui vérifie :
+  
+  #+begin_center
+        $$P(x_{i}) = y_{i} , i = 0,...,n$$
+  #+end_center
+
+  Le théorème de l'unisolvance précise  qu'il n'existe qu'un seul polynôme $p$
+  de degré inférieur ou égal à $n$ défini par un ensemble de $n + 1$ points.
+  
+  L'interpolation d'Hermite consiste à chercher  un polynôme qui non seulement
+  prend  les valeurs  fixées aux  abscisses  données, mais  dont également  la
+  dérivée, donc la pente  de la courbe, prend une valeur  imposée en chacun de
+  ces points. Naturellement, il faut pour  cela un polynôme de degré supérieur
+  au polynôme de Lagrange. On peut aussi imposer encore la valeur des dérivées
+  secondes, troisièmes, etc.  en chaque point. La  démarche de l'interpolation
+  newtonienne utilisant les différences  divisées est particulièrement adaptée
+  pour construire ces polynômes.
+  
+* Méthode d'interpolation langrangienne
+  

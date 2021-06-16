@@ -1,0 +1,33 @@
+#+TITLE:       Debian on Hyper-V
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+TAGS:        virtualisation windows linux debian
+#+DESCRIPTION: Commands to run for max performance of Debian on Hyper-V
+#+PROPERTY:    header-args :comments none :results output silent :padline no
+
+Configure initial ramdisk modules.
+
+#+begin_src shell
+echo hv_vmbus   >> /etc/initramfs-tools/modules
+echo hv_storvsc >> /etc/initramfs-tools/modules
+echo hv_blkvsc  >> /etc/initramfs-tools/modules
+echo hv_netvsc  >> /etc/initramfs-tools/modules
+#+end_src
+
+Install Hyper-V services.
+
+#+begin_src shell
+apt install hyperv-daemons
+#+end_src
+
+Prepare new ramdisk configuration.
+
+#+begin_src shell
+update-initramfs -u
+#+end_src
+
+Take modifications into account.
+
+#+begin_src shell
+reboot
+#+end_src

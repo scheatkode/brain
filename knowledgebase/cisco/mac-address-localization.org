@@ -1,0 +1,21 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Machine localization by MAC address
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  Localizing a machine using only its mac address
+#+OPTIONS:      html-postamble:nil d:nil num:nil :results nil
+#+PROPERTY:     header-args :tangle no :comments no :results none
+# -- END_METADATA -------------------------------------------------------------
+
+This is a neat trick, using a machine's mac address to figure out its location
+by following their respective MAC address tables.
+
+#+begin_src conf
+show mac address-table | include <mac-address>
+#+end_src
+
+The output will return the port on which the device is connected.
+
+#+begin_example
+ab12.cf34.aa21 DYNAMIC Fa0/2
+#+end_example

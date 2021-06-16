@@ -1,0 +1,137 @@
+#+TITLE:       Clear History
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Commands to ensure PowerShell history clearance
+#+OPTIONS:     html-postamble:nil d:nil num:nil :results nil
+#+PROPERTY:    header-args :tangle no :comments no :results none
+
+It  may not  be obvious  that the  =Clear-History= command  in PowerShell  won't
+really clear  the history of  previous commands.  It only clears  the commands
+entered during the current session, that can be displayed using =Get-History=.
+
+To  clear the  entirety of  the PowerShell  command history,  we need  to also
+delete the file in which the previous commands are stored.
+
+But there's also the console host's own history.
+
+* Clear history in PowerShell
+
+  Get the PowerShell command history file location :
+
+  #+begin_src powershell
+(Get-PSReadlineOption).HistorySavePath
+  #+end_src
+
+  Show the contents of the PowerShell command history file :
+
+  #+begin_src powershell
+Get-Content (Get-ReadlineOption).HistorySavePath
+  #+end_src
+
+  Change how PowerShell command history is saved :
+
+  #+begin_src powershell
+Set-PSReadlineOption -HistorySaveStyle SaveIncrementally # default
+Set-PSReadlineOption -HistorySaveStyle SaveAtExit
+Set-PSReadlineOption -HistorySaveStyle SaveNothing
+  #+end_src
+
+* Advanced function
+
+  The following advanced function bundles  all commands necessary to clear the
+  command  history (both  for PowerShell  itself  and the  console), both  for
+  =doskey=-style and =PSReadline=-module PowerShell console windows :
+
+  Note :
+
+  - Because it's  /currently/ the  only safe option,  =PSReadline='s saved-history
+    file is  deleted as well, which  means the *entire history*,  including /from
+    previous sessions/, is cleared.
+
+#+begin_src powershell
+<#
+# .SYNOPSIS
+#
+# Clears  the  command  history,   including  the  saved-to-file  history,  if
+# applicable.
+#>
+function Clear-SavedHistory {
+    [CmdletBinding(
+         ConfirmImpact='High',
+         SupportsShouldProcess
+     )] Param()
+
+    # Debugging: For  testing you  can simulate  not having  PSReadline loaded
+    #            with Remove-Module PSReadline -Force
+
+    $havePSReadline = ($null -ne (Get-Module -EA SilentlyContinue PSReadline))
+
+    Write-Verbose "PSReadline present: $havePSReadline"
+
+    $target = if ($havePSReadline) {
+        "entire command history, including from previous sessions"
+    } else {
+        "command history"
+    }
+
+    if (-not $pscmdlet.ShouldProcess($target)) {
+        return
+    }
+
+    if ($havePSReadline) {
+
+        Clear-Host
+
+        # Remove PSReadline's saved-history file.
+
+        if (Test-Path (Get-PSReadlineOption).HistorySavePath) {
+            # Abort, if the file for some reason cannot be removed.
+
+            Remove-Item -EA Stop (Get-PSReadlineOption).HistorySavePath
+
+            # To be safe, we recreate the file (empty).
+
+            $null = New-Item `
+              -Type File     `
+              -Path (Get-PSReadlineOption).HistorySavePath
+        }
+
+        # Clear PowerShell's own history
+
+        Clear-History
+
+        # Clear PSReadline's *session* history.
+        #
+        # General  caveat  (doesn't apply  here,  because  we're removing  the
+        # saved-history file):
+        #
+        #   - By  default (-HistorySaveStyle  SaveIncrementally),  if you  use
+        #    [Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory(),     any
+        #    sensitive commands *have  already been saved to  the history*, so
+        #    they'll *reappear in the next session*.
+        #
+        #   - Placing  `Set-PSReadlineOption -HistorySaveStyle  SaveAtExit` in
+        #     your profile SHOULD  help that, but as of  PSReadline v1.2, this
+        #     option is BROKEN (saves nothing).
+
+        [Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory()
+
+    } else { # Without PSReadline, we only have a *session* history.
+
+        Clear-Host
+
+        # Clear the doskey library's buffer, used pre-PSReadline.
+        # !! Unfortunately, this requires sending key combination Alt+F7.
+        # Thanks, https://stackoverflow.com/a/13257933/45375
+
+        $null = [system.reflection.assembly]::loadwithpartialname(
+            "System.Windows.Forms"
+        )
+        [System.Windows.Forms.SendKeys]::Sendwait('%{F7 2}')
+
+        # Clear PowerShell's own history
+
+        Clear-History
+    }
+}
+#+end_src

@@ -1,0 +1,24 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        NTDS.dit extraction
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  Extracting the NTDS.dit active directory database
+#+PROPERTY:     header-args :tangle no :comments link :results none
+# -- END_METADATA -------------------------------------------------------------
+
+Either for  penetration testing or  simply password  leak auditing, it  can be
+useful to  extract the =ntds.dit=  file, containing the entire  active directory
+database as well as user password hashes.
+
+* ntdsutil
+
+  When there  is access to  the Domain Controller,  it's possible to  dump the
+  =ntds.dit=  file using  the =ntdsutil.exe=  utility. This  solution is  the most
+  robust.
+
+  #+begin_src bat
+NTDSUTIL.exe 'ac i ntds' 'ifm' 'create full C:\TEMP' q q
+  #+end_src
+
+  The utility  dumps the  requested =ntds.dit=  file as well  as the  =SYSTEM= and
+  =SECURITY= registry hives to the mentioned path.

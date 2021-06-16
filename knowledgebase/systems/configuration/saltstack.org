@@ -1,0 +1,22 @@
+#+TITLE:       Notes for saltstack
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Notes and future reference for saltstack
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+Salt  is a  software  to  automate the  management  and  configuration of  any
+infrastructure or application at scale.
+
+Built  on python,  Salt  uses  simple and  human-readable  YAML combined  with
+event-driven  automation  to  deploy  and configure  complex  IT  systems.  In
+addition  to leveling-up  vRealize Automation  SaltStack Config,  Salt can  be
+found under  the hood  of products from  Juniper, Cisco,  Cloudflare, Nutanix,
+SUSE, and Tieto, to name a few.
+
+* Recommended folder structure
+
+  - keys
+  - pillar
+  - reactor
+  - salt

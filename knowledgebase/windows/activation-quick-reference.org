@@ -1,0 +1,69 @@
+#+TITLE:       Windows command line activation quick reference
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Activating Windows using the command line is a breeze.
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+Using either  one of /Ratiborus'/ tools  listed below, one can  activate Windows
+from the command line.
+
+- AAct
+- AAct Network
+- ConsoleAct Portable
+- KMSAuto Lite
+- KMSAuto Net
+
+The following editions are all supported :
+
+- Windows XP
+- Windows Vista
+- Windows 7
+- Windows 8
+- Windows 8.1
+- Windows 10
+
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
+- Windows Server 2016
+
+- Microsoft Office 2010
+- Microsoft Office 2013
+- Microsoft Office 2016
+- Microsoft Office 2019
+
+The software support the following startup parameters :
+
+- /win=act         :: Run program in  hidden mode, activate Windows  and  exit
+                      the program.
+- /ofs=act         :: Run program in hidden mode, activate Office and exit the
+                      program.
+- /wingvlk         :: Run program in hidden mode, install Windows Key and exit
+                      the program.
+- /ofsgvlk         :: Run program in hidden  mode, install Office Key and exit
+                      the program.
+- /taskwin         :: Create reactivation task Windows.
+- /taskofs         :: Create reactivation task Office.
+- /onlinekms       :: Use external KMS-Service.
+- /disabledefender :: Disable Windows Defender.
+- /ru  | /en       :: The  program  will  be  launched  on  Russian  (English)
+                      interface.
+
+Additionally, here's a list of required Defender exceptions :
+
+#+begin_src bat
+%ProgramData%\KMSAutoS
+%SystemRoot%\AAct_Tools
+%SystemRoot%\AAct_Tools\AAct_files
+%SystemRoot%\AAct_Tools\AAct_files\KMSSS.exe
+%SystemRoot%\AAct_Tools\AAct_x64.exe
+%SystemRoot%\AAct_Tools\AAct.exe
+%SystemRoot%\ConsoleAct_x64.exe
+%SystemRoot%\KMS
+%SystemRoot%\KMSAutoS
+%SystemRoot%\System32\SppExtComObjHook.dll
+%SystemRoot%\System32\SppExtComObjPatcher.exe
+%SystemRoot%\System32\KMSAutoNet
+#+end_src

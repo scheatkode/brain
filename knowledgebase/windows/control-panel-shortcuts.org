@@ -1,0 +1,261 @@
+#+TITLE:        Control Panel
+#+AUTHOR:       Cheatcode
+#+EMAIL:        cheat.code@hotmail.com
+#+DESCRIPTION:  Commands to open the control panel on particular pages
+#+STARTUP:      align shrink
+#+PROPERTY:     header-args :comments none :results output silent :padline no
+
+| <25>                              | <30>                                                   |               |
+| Name                              | Command                                                | Windows       |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Accessibility Options             | control access.cpl                                     | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Action Center                     | control /name Microsoft.ActionCenter                   | 8,7           |
+|                                   | control wscui.cpl                                      | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Add Features to Windows 8         | control /name Microsoft.WindowsAnytimeUpgrade          | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Add Hardware                      | control /name Microsoft.AddHardware                    | Vista         |
+|                                   | control hdwwiz.cpl                                     | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Add or Remove Programs            | control appwiz.cpl                                     | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Administrative Tools              | control /name Microsoft.AdministrativeTools            | 8,7,Vista     |
+|                                   | control admintools                                     | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Automatic Updates                 | control wuaucpl.cpl                                    | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| AutoPlay                          | control /name Microsoft.AutoPlay                       | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Backup and Restore Center         | control /name Microsoft.BackupAndRestoreCenter         | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Backup and Restore                | control /name Microsoft.BackupAndRestore               | 7             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Biometric Devices                 | control /name Microsoft.BiometricDevices               | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| BitLocker Drive Encryption        | control /name Microsoft.BitLockerDriveEncryption       | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Bluetooth Devices                 | control bthprops.cpl13                                 | 8,7,Vista     |
+|                                   | control /name Microsoft.BluetoothDevices               | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Color Management                  | control /name Microsoft.ColorManagement                | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Color1                            | WinColor.exe2                                          | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Credential Manager                | control /name Microsoft.CredentialManager              | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Client Service for NetWare        | control nwc.cpl                                        | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Date and Time                     | control /name Microsoft.DateAndTime                    | 8,7,Vista     |
+|                                   | control timedate.cpl                                   | 8,7,Vista     |
+|                                   | control date/time                                      | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Default Location                  | control /name Microsoft.DefaultLocation                | 7             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Default Programs                  | control /name Microsoft.DefaultPrograms                | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Desktop Gadgets                   | control /name Microsoft.DesktopGadgets                 | 7             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Device Manager                    | control /name Microsoft.DeviceManager                  | 8,7,Vista     |
+|                                   | control hdwwiz.cpl                                     | 8,7,Vista     |
+|                                   | devmgmt.msc                                            | 8,7,Vista,XP3 |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Devices and Printers              | control /name Microsoft.DevicesAndPrinters             | 8,7           |
+|                                   | control printers                                       | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Display                           | control /name Microsoft.Display                        | 8,7           |
+|                                   | control desk.cpl                                       | XP            |
+|                                   | control desktop                                        | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Ease of Access Center             | control /name Microsoft.EaseOfAccessCenter             | 8,7,Vista     |
+|                                   | control access.cpl                                     | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Family Safety                     | control /name Microsoft.ParentalControls               | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| File History                      | control /name Microsoft.FileHistory                    | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Flash Player Settings Manager     | control flashplayercplapp.cpl                          | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Folder Options                    | control /name Microsoft.FolderOptions                  | 8,7,Vista     |
+|                                   | control folders                                        | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Fonts                             | control /name Microsoft.Fonts                          | 8,7,Vista     |
+|                                   | control fonts                                          | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Game Controllers                  | control /name Microsoft.GameControllers                | 8,7,Vista     |
+|                                   | control joy.cpl                                        | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Get Programs                      | control /name Microsoft.GetPrograms                    | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Getting Started                   | control /name Microsoft.GettingStarted                 | 7             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Home Group                        | control /name Microsoft.HomeGroup                      | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Indexing Options                  | control /name Microsoft.IndexingOptions                | 8,7,Vista     |
+|                                   | rundll32.exe shell32.dll,Control_RunDLL srchadmin.dll  | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Infrared                          | control /name Microsoft.Infrared                       | 8,7           |
+|                                   | control irprops.cpl                                    | 8,7,Vista     |
+|                                   | control /name Microsoft.InfraredOptions                | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Internet Options                  | control /name Microsoft.InternetOptions                | 8,7,Vista     |
+|                                   | control inetcpl.cpl                                    | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| iSCSI Initiator                   | control /name Microsoft.iSCSIInitiator                 | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Keyboard                          | control /name Microsoft.Keyboard                       | 8,7,Vista     |
+|                                   | control keyboard                                       | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Language                          | control /name Microsoft.Language                       | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Location and Other Sensors        | control /name Microsoft.LocationAndOtherSensors        | 7             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Location Settings                 | control /name Microsoft.LocationSettings               | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Mail4                             | control mlcfg32.cpl5                                   | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Mouse                             | control /name Microsoft.Mouse                          | 8,7,Vista     |
+|                                   | control main.cpl                                       | 8,7,Vista     |
+|                                   | control mouse                                          | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Network and Sharing Center        | control /name Microsoft.NetworkAndSharingCenter        | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Network Connections               | control ncpa.cpl                                       | 8,7,Vista     |
+|                                   | control netconnections                                 | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Network Setup Wizard              | control netsetup.cpl                                   | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Notification Area Icons           | control /name Microsoft.NotificationAreaIcons          | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| ODBC Data Source Administrator    | control odbccp32.cpl                                   | XP6           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Offline Files                     | control /name Microsoft.OfflineFiles                   | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Parental Controls                 | control /name Microsoft.ParentalControls               | 7,Vista       |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Pen and Input Devices             | control /name Microsoft.PenAndInputDevices             | Vista         |
+|                                   | control tabletpc.cpl                                   | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Pen and Touch                     | control /name Microsoft.PenAndTouch                    | 8,7           |
+|                                   | control tabletpc.cpl                                   | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| People Near Me                    | control /name Microsoft.PeopleNearMe                   | 7,Vista       |
+|                                   | control collab.cpl                                     | 7,Vista       |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Performance Information and Tools | control /name Microsoft.PerformanceInformationAndTools | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Personalization                   | control /name Microsoft.Personalization                | 8,7,Vista     |
+|                                   | control desktop                                        | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Phone and Modem Options           | control /name Microsoft.PhoneAndModemOptions           | Vista         |
+|                                   | control telephon.cpl                                   | Vista,XP      |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Phone and Modem                   | control /name Microsoft.PhoneAndModem                  | 8,7           |
+|                                   | control telephon.cpl                                   | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Power Options                     | control /name Microsoft.PowerOptions                   | 8,7,Vista     |
+|                                   | control powercfg.cpl                                   | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Printers and Faxes                | control printers                                       | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Printers                          | control /name Microsoft.Printers                       | Vista         |
+|                                   | control printers                                       | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Problem Reports and Solutions     | control /name Microsoft.ProblemReportsAndSolutions     | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Programs and Features             | control /name Microsoft.ProgramsAndFeatures            | 8,7,Vista     |
+|                                   | control appwiz.cpl                                     | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Recovery                          | control /name Microsoft.Recovery                       | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Region                            | control /name Microsoft.RegionAndLanguage              | 8             |
+|                                   | control intl.cpl                                       | 8             |
+|                                   | control international                                  | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Region and Language               | control /name Microsoft.RegionAndLanguage              | 7             |
+|                                   | control intl.cpl                                       | 7             |
+|                                   | control international                                  | 7             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Regional and Language Options     | control /name Microsoft.RegionalAndLanguageOptions     | Vista         |
+|                                   | control intl.cpl                                       | Vista         |
+|                                   | control international                                  | Vista,XP      |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| RemoteApp and Desktop Connections | control /name Microsoft.RemoteAppAndDesktopConnections | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Scanners and Cameras              | control /name Microsoft.ScannersAndCameras             | 8,7,Vista     |
+|                                   | control sticpl.cpl                                     | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Scheduled Tasks                   | control schedtasks                                     | XP,7          |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Screen Resolution                 | control desk.cpl                                       | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Security Center                   | control /name Microsoft.SecurityCenter                 | Vista         |
+|                                   | control wscui.cpl                                      | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Software Explorers8               | msascui.exe9                                           | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Sound                             | control /name Microsoft.Sound                          | 8,7           |
+|                                   | control /name Microsoft.AudioDevicesAndSoundThemes     | Vista         |
+|                                   | control mmsys.cpl                                      | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Sounds and Audio Devices          | control mmsys.cpl                                      | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Speech Recognition Options        | control /name Microsoft.SpeechRecognitionOptions       | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Speech Recognition                | control /name Microsoft.SpeechRecognition              | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Speech                            | control sapi.cpl10                                     | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Storage Spaces                    | control /name Microsoft.StorageSpaces                  | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Sync Center                       | control /name Microsoft.SyncCenter                     | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| System                            | control /name Microsoft.System                         | 8,7,Vista     |
+|                                   | control sysdm.cpl                                      | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| System Properties                 | control sysdm.cpl                                      | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Tablet PC Settings                | control /name Microsoft.TabletPCSettings               | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Task Scheduler7                   | control schedtasks                                     | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Taskbar                           | control /name Microsoft.Taskbar                        | 8             |
+|                                   | rundll32.exe shell32.dll,Options_RunDLL 1              | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Taskbar and Start Menu            | control /name Microsoft.TaskbarAndStartMenu            | 7,Vista       |
+|                                   | rundll32.exe shell32.dll,Options_RunDLL 1              | 7,Vista,XP    |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Text to Speech                    | control /name Microsoft.TextToSpeech                   | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Troubleshooting                   | control /name Microsoft.Troubleshooting                | 8,7           |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| User Accounts                     | control /name Microsoft.UserAccounts                   | 8,7,Vista     |
+|                                   | control userpasswords                                  | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Welcome Center                    | control /name Microsoft.WelcomeCenter                  | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows 7 File Recovery           | control /name Microsoft.BackupAndRestore               | 8             |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows Anytime Upgrade           | control /name Microsoft.WindowsAnytimeUpgrade          | 7,Vista       |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows CardSpace                 | control /name Microsoft.CardSpace                      | 7,Vista       |
+|                                   | control infocardcpl.cpl                                | 7,Vista       |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows Defender                  | control /name Microsoft.WindowsDefender                | 8,7,Vista11   |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows Firewall                  | control /name Microsoft.WindowsFirewall                | 8,7,Vista     |
+|                                   | control firewall.cpl                                   | 8,7,Vista,XP  |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows Marketplace               | control /name Microsoft.GetProgramsOnline              | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows Mobility Center           | control /name Microsoft.MobilityCenter                 | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows Sidebar Properties        | control /name Microsoft.WindowsSidebarProperties       | Vista         |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows SideShow                  | control /name Microsoft.WindowsSideShow                | 8,7,Vista     |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Windows Update                    | control /name Microsoft.WindowsUpdate                  | 8,7,Vista12   |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Wireless Link                     | control irprops.cpl                                    | XP            |
+|-----------------------------------+--------------------------------------------------------+---------------|
+| Wireless Network Setup Wizard     | ?                                                      | XP            |

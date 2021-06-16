@@ -1,0 +1,50 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Outlook Registry Fix
+#+TITLE:
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  Outlook registry fix for unresponsive signature and fonts
+#+STARTUP:      indent lognoteclock-out
+#+OPTIONS:      html-postamble:nil toc:nil title:nil d:nil num:nil :results nil
+#+BABEL:        :cache yes
+#+PROPERTY:     header-args :tangle no :comments link :results none
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+# -- END_METADATA -------------------------------------------------------------
+
+Microsoft  has identified  the  cause as  having both  the  Windows app  store
+version installed as well as a "normal" version.
+
+* Using PowerShell
+  
+  With  administrator credentials,  run the  following command  to remove  the
+  provisioned appx package.
+  
+  #+BEGIN_SRC ps1
+  Get-AppxProvisionedPackage -Online               `
+  | where-object {$_.packagename like "*Outlook*"} `
+  | Remove-AppxProvisionedPackage -Online
+  #+END_SRC
+  
+  Follow up with the following command to remove the Outlook appx package.
+
+  #+BEGIN_SRC ps1
+  Get-AppxPackage "*Outlook*" | Remove-AppxPackage
+  #+END_SRC
+
+  Finally, run the same command without basic user privileges.
+
+  #+BEGIN_SRC ps1
+  Get-AppxPackage "*Outlook*" | Remove-AppxPackage
+  #+END_SRC
+  
+* Using the registry editor
+
+  Make sure the ~LocalServer32~ default  value points to the installed Outlook
+  binary under the following paths :
+  
+  - ~HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Wow6432Node\CLSID~
+  - ~HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID~
+    
+  Outlook's GUID is : ~0006F03A-0000-0000-C000-000000000046~

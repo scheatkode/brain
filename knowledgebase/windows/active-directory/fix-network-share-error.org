@@ -1,0 +1,41 @@
+#+TITLE:       Fix network share errors
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Fix for network share errors that arise when renaming folders
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+When operating on a network share, there may sometimes be failures with error messages like “ /the action can't be completed/... ”.
+
+* Symptoms
+
+  Steps to reproduce the issue:
+
+  1. Map  a drive  to a  network share that  contains several  subfolders that
+     contains images files or PDFs
+  2. Open an Explorer window and navigate to the parent folder.
+  3. Attempt to  rename each  folder  successively, while  drilling  into  the
+     subfolder contents.
+  4. Continue step  3 until  an error  dialog containing  the  following  text
+     appears  indicating that  the subfolder  cannot be  renamed: "/The  action
+     can't be completed because the folder or  a file in it is open in another
+     program. Close the file or folder and try again./"
+
+* Cause
+
+  The folder rename  operation fails because =thumbcache.dll= still  has an open
+  handle to the local =thumbs.db= file and sometimes fails to release the handle
+  to the file  in a more dynamic and timely  fashion, especially when multiple
+  users try to access the same resources.
+
+* Resolution
+
+  To work around the issue, enable the User Group Policy setting for “Turn off
+  the caching of thumbnails in hidden thumbs.db files” :
+
+  - Policy Path ::
+    =User Configuration\Administrative Templates\Windows Components\Windows Explorer=
+  - Policy Setting ::
+    “Turn off the caching of thumbnails in hidden thumbs.db files”
+  - Policy Value ::
+    Enabled

@@ -1,0 +1,21 @@
+#+TITLE:        Computer name using Nmap
+#+AUTHOR:       scheatkode
+#+EMAIL:        scheatkode@gmail.com
+#+TAGES:        nmap network security pentest windows linux
+#+DESCRIPTION:  Nmap commands to retrieve a computer name
+#+PROPERTY:     header-args :comments none :results output silent :padline no
+
+Ever wanted to get a computer's hostname ? The following commands do just that
+using the infamous [[https://nmap.org/][Nmap]] :
+
+* Using NetBIOS
+
+  #+begin_src shell
+nmap -T4 -p 137 -sU --script nbtstat.nse <TARGET>
+  #+end_src
+
+* Using SMB
+
+  #+begin_src shell
+nmap -T4 -p 445 --script smb-os-discovery <TARGET>
+  #+end_src

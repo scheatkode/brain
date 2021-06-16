@@ -1,0 +1,35 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Windows services modification
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  Modifying service executable path
+#+PROPERTY:     header-args :tangle no :comments link :results none
+# -- END_METADATA -------------------------------------------------------------
+
+By default, you  cannot directly change the path to  executable in the Windows
+service program.  The following steps are  required to make any  change to the
+services. No  restart is necessary but  a service restart is  required to take
+account of the changes made.
+
+There are two methods of doing so.
+
+* Method 1
+
+  Using the *Registry Editor*, browse to the following directory.
+
+  #+begin_quote
+HKLM:\SYSTEM\CurrentControlSet\Services\<your-service>
+  #+end_quote
+
+  There,  you  will  find  everything  related to  the  queried  service.  The
+  executable path key is named =ImagePath=.
+
+* Method 2
+
+  Using the *Command Prompt*, enter the following command.
+
+  #+begin_src bat
+SC CONFIG your-service binPath= "executable-path"
+  #+end_src
+
+  And that's it.

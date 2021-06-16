@@ -1,0 +1,26 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        Intégrales
+#+AUTHOR:       Farouk HADDAD
+#+EMAIL:        farouk.haddad.consultant@gmail.com, farouk.haddad@esprit.tn
+# #+DESCRIPTION:
+#+STARTUP:      latexpreview
+#+OPTIONS:      html-postamble:nil d:nil num:nil
+#+BABEL:        :cache yes
+#+PROPERTY:     header-args :comments none :results output silent :padline no
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{mathtools}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{amsfonts}
+#+LATEX_HEADER: \usepackage{amssymb}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+# -- END_METADATA ------------------------------------------------------------
+
+* TODO Définition
+* TODO Intégrales usuelles
+
+* TODO Course notes
+
+  $$\int{t^{n}} = \frac{t^{n+1}}{n+1} + c$$
+  
+  $$I(f) = \int^{b}_{a}{f(x)dx} = [F(t)]^{b}_{a} = F(b) - F(a)$$

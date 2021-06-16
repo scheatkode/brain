@@ -1,0 +1,47 @@
+# -- BEGIN_METADATA ----------------------------------------------------------
+#+TITLE:        PowerCfg
+#+TITLE:
+#+AUTHOR:       chaoticmurder
+#+EMAIL:        chaoticmurder.git@gmail.com
+#+DESCRIPTION:  A quick reference for PowerCfg commands
+#+STARTUP:
+#+OPTIONS:      html-postamble:nil d:nil num:nil
+#+BABEL:        :cache yes
+#+PROPERTY:     header-args :comments none :results output silent :padline no
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+# -- END_METADATA ------------------------------------------------------------
+
+Hibernate option is  missing from the Power Options in  the Control Panel? Did
+you install driver  updates but still couldn’t get the  Hibernate option back?
+Check out the following commands :
+
+#+begin_src
+  POWERCFG.EXE /hibernate on
+#+end_src
+
+Still not working ?
+
+#+begin_src
+  POWERCFG.EXE /hibernate /type full
+#+end_src
+
+Also check the following registry entry :
+
+#+begin_src
+  REG.EXE add HKLM\SYSTEM\CurrentControlSet\Control\Power
+    /v HibernateEnabled
+    /t REG_DWORD
+    /d 1
+    /f
+#+end_src
+
+And also check sleep related policies in the following Group Policy :
+
+#+begin_src
+  Computer Configuration
+  > Administrative Templates
+  > Windows Components
+  > File Explorer
+#+end_src
