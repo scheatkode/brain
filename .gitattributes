@@ -1,0 +1,5 @@
+.gitattributes !filter           !diff
+agenda/**       filter=git-crypt  diff=git-crypt
+clients/**      filter=git-crypt  diff=git-crypt
+lists/**        filter=git-crypt  diff=git-crypt
+studies/**      filter=git-crypt  diff=git-crypt
