@@ -6,7 +6,7 @@
 #+PROPERTY:    header-args :comments none :results output silent :padline no
 
 #+html: <p align="center">
-#+html: <img src="../../_assets/zealous_autoconfig.png" alt="banner" />
+#+html: <img src="../../_assets/xkcd/zealous_autoconfig.png" alt="banner" />
 #+html: </p>
 
 Recently, I  had to troubleshoot  an issue  where users moving  between floors
