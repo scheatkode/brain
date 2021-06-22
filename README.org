@@ -6,7 +6,7 @@
 #+PROPERTY:    header-args :tangle no :comments link :results none
 
 #+html: <p align="center">
-#+html: <img src="_assets/forest-waterfall.gif" alt="banner"/>
+#+html: <img src=".assets/forest-waterfall.gif" alt="banner"/>
 #+html: </p>
 
 ** Hi, I'm scheatkode

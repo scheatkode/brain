@@ -7,7 +7,7 @@
 #+PROPERTY:     header-args :tangle no :comments link #:results none
 
 #+begin_center
-             [[file:../../_assets/xkcd/windows.png]]
+             [[file:../../.assets/xkcd/windows.png]]
 #+end_center
 
 On a  Windows Server 2008 or  2012 machine, a =Remote  Desktop Services= service
@@ -15,7 +15,7 @@ that has  been deployed and  working for some  time begins throwing  up errors
 about /unavailable license servers/, as shown below :
 
 #+begin_center
-             [[file:../../_assets/figures/figure--rds-error.jpg]]
+             [[file:../../.assets/figures/figure--rds-error.jpg]]
 #+end_center
 
 This is usually due to the license /grace period/ being over. Fear not, there is
@@ -25,14 +25,14 @@ always a way; just follow the below steps :
    registry container.
 
 #+begin_center
-             [[file:../../_assets/figures/figure--registry-rds-grace-period.jpg]]
+             [[file:../../.assets/figures/figure--registry-rds-grace-period.jpg]]
 #+end_center
 
 2. Give  ownership of the  ~GracePeriod~ (=REG_BINARY=) key to  the =Administrators=
    group.
 
 #+begin_center
-             [[file:../../_assets/figures/figure--registry-ownership-taking.jpg]]
+             [[file:../../.assets/figures/figure--registry-ownership-taking.jpg]]
 #+end_center
 
 3. Delete the key.

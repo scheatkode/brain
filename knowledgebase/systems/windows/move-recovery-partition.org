@@ -6,7 +6,7 @@
 #+PROPERTY:    header-args :tangle no :comments link #:results none
 
 #+begin_center
-             [[file:../../_assets/xkcd/workaround.png]]
+             [[file:../../.assets/xkcd/workaround.png]]
 #+end_center
 
 When using  Windows 10, 450MB Recovery  partition usually gets created  in the
