@@ -1,10 +1,8 @@
-# -- BEGIN_METADATA ----------------------------------------------------------
 #+TITLE:        Re-establishing trust relationship with Domain Controllers
-#+AUTHOR:       chaoticmurder
-#+EMAIL:        chaoticmurder.git@gmail.com
+#+AUTHOR:       scheatkode
+#+EMAIL:        scheatkode@gmail.com
 #+DESCRIPTION:  Re-establishing trust relationship with Domain Controllers
 #+PROPERTY:     header-args :tangle no :comments link :results none
-# -- END_METADATA -------------------------------------------------------------
 
 Every  computer joined  to  an Active  Directory domain  has  its own  special
 account in AD, meaning each computer  actually has a "/username/" and a password

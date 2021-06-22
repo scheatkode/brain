@@ -1,8 +1,7 @@
-# -- BEGIN_METADATA ----------------------------------------------------------
 #+TITLE:        PowerCfg
 #+TITLE:
-#+AUTHOR:       chaoticmurder
-#+EMAIL:        chaoticmurder.git@gmail.com
+#+AUTHOR:       scheatkode
+#+EMAIL:        scheatkode@gmail.com
 #+DESCRIPTION:  A quick reference for PowerCfg commands
 #+STARTUP:
 #+OPTIONS:      html-postamble:nil d:nil num:nil
@@ -11,7 +10,6 @@
 #+LATEX_HEADER: \usepackage{parskip}
 #+LATEX_HEADER: \usepackage{inconsolata}
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
-# -- END_METADATA ------------------------------------------------------------
 
 Hibernate option is  missing from the Power Options in  the Control Panel? Did
 you install driver  updates but still couldn’t get the  Hibernate option back?

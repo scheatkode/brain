@@ -1,10 +1,8 @@
-# -- BEGIN_METADATA ----------------------------------------------------------
 #+TITLE:        Windows System Repair
-#+AUTHOR:       chaoticmurder
-#+EMAIL:        chaoticmurder.git@gmail.com
+#+AUTHOR:       scheatkode
+#+EMAIL:        scheatkode@gmail.com
 #+DESCRIPTION:  Repairing a broken windows system using sfc and dism
 #+PROPERTY:     header-args :tangle no :comments link :results none
-# -- END_METADATA -------------------------------------------------------------
 
 This  is a  quick and  dirty way  to repair  Windows systems  in an  automated
 way. Useful for common and/or darker issues. Or simply when there isn't enough

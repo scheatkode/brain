@@ -1,7 +1,6 @@
-# -- BEGIN_METADATA ----------------------------------------------------------
 #+TITLE:        Intégrales
-#+AUTHOR:       Farouk HADDAD
-#+EMAIL:        farouk.haddad.consultant@gmail.com, farouk.haddad@esprit.tn
+#+AUTHOR:       scheatkode
+#+EMAIL:        scheatkode@gmail.com
 # #+DESCRIPTION:
 #+STARTUP:      latexpreview
 #+OPTIONS:      html-postamble:nil d:nil num:nil
@@ -14,7 +13,6 @@
 #+LATEX_HEADER: \usepackage{amssymb}
 #+LATEX_HEADER: \usepackage{inconsolata}
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
-# -- END_METADATA ------------------------------------------------------------
 
 * TODO Définition
 * TODO Intégrales usuelles

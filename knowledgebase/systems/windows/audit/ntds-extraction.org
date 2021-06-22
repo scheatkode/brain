@@ -1,10 +1,8 @@
-# -- BEGIN_METADATA ----------------------------------------------------------
 #+TITLE:        NTDS.dit extraction
-#+AUTHOR:       chaoticmurder
-#+EMAIL:        chaoticmurder.git@gmail.com
+#+AUTHOR:       scheatkode
+#+EMAIL:        scheatkode@gmail.com
 #+DESCRIPTION:  Extracting the NTDS.dit active directory database
 #+PROPERTY:     header-args :tangle no :comments link :results none
-# -- END_METADATA -------------------------------------------------------------
 
 Either for  penetration testing or  simply password  leak auditing, it  can be
 useful to  extract the =ntds.dit=  file, containing the entire  active directory

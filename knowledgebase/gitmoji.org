@@ -1,6 +1,6 @@
 #+TITLE:        Gitmoji
-#+AUTHOR:       chaoticmurder
-#+EMAIL:        chaoticmurder.git@gmail.com
+#+AUTHOR:       scheatkode
+#+EMAIL:        scheatkode@gmail.com
 #+DESCRIPTION:  Emoji list to use with commits
 
 * Description
