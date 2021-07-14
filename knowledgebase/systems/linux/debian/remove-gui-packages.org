@@ -1,0 +1,20 @@
+#+TITLE:       Remove GUI packages
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+TAGS:        linux debian gui package
+#+DESCRIPTION: Removing GUI packages from an existing debian-based installation
+#+PROPERTY:    header-args :comments none :results output silent :padline no
+
+When in need  of removing GUI packages from an  existing Debian installation,
+the following commands can be helpful.
+
+#+begin_src shell
+apt-get remove     --yes --purge x11-common
+apt-get autoremove --yes --purge
+apt-get install    --yes deborphan
+
+deborphan | xargs dpkg --purge
+#+end_src
+
+You can run the  last command a few times to make sure  there are no leftover
+orphaned packages.
