@@ -1,0 +1,16 @@
+#+TITLE:       Automatic security update
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+TAGS:        linux debian package update
+#+DESCRIPTION: Enabling Debian automatic security updates
+#+PROPERTY:    header-args :comments none :results output silent :padline no
+
+Updating systems manually can be cumbersome and frustrating; thankfully, it can be automated in Debian simply using the following commands.
+
+#+begin_src shell
+echo "unattended-upgrades
+     unattended-upgrades/enable_auto_updates
+     boolean true" \
+     | debconf-set-selections \
+    && apt-get install unattended-upgrades --yes
+#+end_src
