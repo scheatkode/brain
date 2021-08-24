@@ -6,9 +6,9 @@
 #+STARTUP:     inlineimages
 #+PROPERTY:    header-args :tangle no :comments link #:results none
 
-#+begin_center
-             [[file:../../../.assets/xkcd/bootsector.png]]
-#+end_center
+#+html: <p align="center">
+#+html: <img src="../../../.assets/xkcd/bootsector.png" alt="banner"/>
+#+html: </p>
 
 Stupidity  lurks at  every  corner and,  for a  tired  and overworked  systems
 administrator, happens to  be closer than usual, especially when  backing up a
@@ -33,7 +33,8 @@ disk that happens to have a corrupt hybrid MBR/GPT partitioning scheme.
      In the command prompt, type =diskpart=.
 
   #+begin_src bat
-C:\> diskpart DISKPART>
+C:\> diskpart
+DISKPART>
   #+end_src
 
   5. Identify the disk in which your Windows installation is located by typing
