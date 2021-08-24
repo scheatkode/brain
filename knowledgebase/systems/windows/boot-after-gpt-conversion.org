@@ -1,0 +1,150 @@
+#+TITLE:       Boot after converting to GPT
+#+TITLE:
+#+AUTHOR:      scheatkode
+#+EMAIL:       scheatkode@gmail.com
+#+DESCRIPTION: Fixing boot partitions after converting from MBR to GPT
+#+STARTUP:     inlineimages
+#+PROPERTY:    header-args :tangle no :comments link #:results none
+
+#+begin_center
+             [[file:../../../.assets/xkcd/bootsector.png]]
+#+end_center
+
+Stupidity  lurks at  every  corner and,  for a  tired  and overworked  systems
+administrator, happens to  be closer than usual, especially when  backing up a
+disk that happens to have a corrupt hybrid MBR/GPT partitioning scheme.
+
+* Recommendations
+
+  - *It is HIGHLY recommended to perform a backup of the data !*
+  - Keep  this guide  handy since  *you will  have to  make operations  without
+    Windows working or access to a web browser*.
+
+* Instructions
+
+  1. Create a [[https://support.microsoft.com/en-us/windows/create-a-recovery-drive-abb4691b-5324-6d4a-8766-73fab304c246][system recovery drive]] or some other WinPE-based recovery utility
+     if your  Windows is unbootable.  /Tried and working with  [[https://sergeistrelec.ru][Sergei Strelec's
+     WinPE]]/.
+  2. Boot using your Windows installation or previously generated system
+     recovery drive.
+  3. Choose your preferred language and select /Repair Your Computer →
+     Troubleshoot → Advanced options → Command Prompt/.
+  4. We will need the disk partitioning tool to recreate the boot partitions.
+     In the command prompt, type =diskpart=.
+
+  #+begin_src bat
+C:\> diskpart DISKPART>
+  #+end_src
+
+  5. Identify the disk in which your Windows installation is located by typing
+     =list disk=. You should see a table like the one below :
+
+  #+begin_src bat
+DISKPART> list disk
+
+  Disk ###  Status         Size     Free     Dyn  Gpt
+
+  --------  -------------  -------  -------  ---  ---
+
+* Disk 0    Online          512 GB      0 B        *
+  #+end_src
+
+  6. Once identified, select the disk by typing =select disk <your identified
+     disk number here>=.
+
+  #+begin_src bat
+DISKPART> select disk 0
+
+Disk 0 is now the selected disk.
+
+DISKPART>
+  #+end_src
+
+  7. Verify the partitions with =list partition=.
+
+  #+begin_src bat
+DISKPART> list partition
+
+  Partition ###  Type              Size     Offset
+
+  -------------  ----------------  -------  -------
+
+  Partition 1    Primary            350 MB  1024 KB
+
+  Partition 2    Primary            126 GB   350 MB
+
+DISKPART>
+  #+end_src
+
+  8. Delete the previous system partition :
+
+  #+begin_src bat
+DISKPART> select partition 1
+
+Partition 1 is now the selected partition.
+
+DISKPART> delete partition
+  #+end_src
+
+  9. Create the new boot partition and Microsof reserved partition:
+
+  #+begin_src bat
+DISKPART> create partition EFI size=100 offset=1
+
+...
+
+DISKPART> format quick fs=fat32 label="System"
+
+...
+
+DISKPART> assign letter=S
+
+...
+
+DISKPART> create partition msr size=128 offset=103424
+
+...
+
+DISKPART>
+  #+end_src
+
+  1. Ensure that your Windows installation is mounted, replacing =3= with the
+     volume number of your Windows installation:
+
+  #+begin_src bat
+DISKPART> list volume
+
+...
+
+DISKPART> select volume 3
+
+...
+
+DISKPART> assign letter=C
+
+...
+
+DISKPART>
+  #+end_src
+
+  11. Exit diskpart:
+
+  #+begin_src bat
+DISKPART> exit
+C:\>
+  #+end_src
+
+  1. Generate boot partition data, replacing C: with the letter of your
+     Windows installation:
+
+  #+begin_src bat
+C:\> bcboot C:\Windows /s S: /f UEFI
+  #+end_src
+
+  13. Cross your fingers and restart the computer.
+
+  #+begin_src bat
+C:\> shutdown /r /t 0
+  #+end_src
+
+   Good luck !
