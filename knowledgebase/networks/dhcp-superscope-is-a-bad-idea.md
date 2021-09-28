@@ -1,24 +1,31 @@
-#+TITLE:       DHCP superscope is a bad idea
-#+AUTHOR:      scheatkode
-#+EMAIL:       scheatkode@gmail.com
-#+DESCRIPTION: Explaining why Windows DHCP Superscope should be avoided
-#+FILETAGS:    :administration:system:windows:networks:dhcp:troubleshooting:
-#+PROPERTY:    header-args :comments none :results output silent :padline no
+---
+author: scheatkode
+title: DHCP superscope is a bad idea
+tags:
+   - administration
+   - system
+   - windows
+   - network
+   - dhcp
+   - troubleshooting
+---
 
-#+html: <p align="center">
-#+html: <img src="../../.assets/xkcd/zealous_autoconfig.png" alt="banner" />
-#+html: </p>
+<p align="center">
+   <img src="../../.assets/xkcd/zealous_autoconfig.png" alt="banner" />
+</p>
+
+<h1 align="center">DHCP superscope is a bad idea</h1>
 
 Recently, I  had to troubleshoot  an issue  where users moving  between floors
 with different subnets/VLANs were not getting the correct LAN IP address (i.e.
-first floor was 192.168.1.0/24 and the second was 192.168.2.0/24).
+first floor was `192.168.1.0/24` and the second was `192.168.2.0/24`).
 
 Verified the  network devices  had IP  Helpers, that  this wasn't  some hidden
 Layer 2 loop on the switches, even temporarily disabled DHCP failover (2012R2+
 feature) to rule that out ... nothing.
 
-Whenever the machine switched from one floor to another, even running =IPCONFIG
-/RELEASE= & =IPCONFIG /RENEW= did not help.  Checking the logs on the DHCP server
+Whenever the machine switched from one floor to another, even running `IPCONFIG
+/RELEASE` & `IPCONFIG /RENEW` did not help.  Checking the logs on the DHCP server
 indicated that the traffic  was making it there and the DHCP  server saw it as
 renewing the lease, which it allowed rather than rejecting handing out that IP
 address and assigning one for the correct range.
@@ -48,6 +55,6 @@ there was only one  LAN subnet for all floors and/or  desktops in use instead,
 then  the issue  would  take a  while  to manifest  (only  if moving  desktops
 frequently between floors or outside the building).
 
-So yeah, lesson learned. *Don’t ever  use Superscoping for DHCP* because it does
+So yeah, lesson learned. **Don’t ever  use Superscoping for DHCP** because it does
 not help you  out in any way  functionally, and there are  almost no scenarios
 where a network would be deployed in such a way that Superscoping made sense.
