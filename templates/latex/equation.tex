@@ -1,0 +1,31 @@
+\documentclass{standalone}
+
+\usepackage[eulergreek]{sansmath}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{helvet}
+\usepackage{mathtools}
+\usepackage{parskip}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\SendSettingsToPgf
+\pgfplotsset{compat=1.13}
+\pgfplotsset{
+   tick label style = {font=\sansmath\sffamily},
+   every axis label = {font=\sansmath\sffamily},
+   legend style = {font=\sansmath\sffamily},
+   label style = {font=\sansmath\sffamily}
+}
+
+\begin{document}
+
+$\displaystyle
+   <your equation here>
+$
+
+\end{document}
