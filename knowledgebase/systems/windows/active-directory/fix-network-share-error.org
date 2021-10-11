@@ -5,7 +5,8 @@
 #+STARTUP:     inlineimages
 #+PROPERTY:    header-args :tangle no :comments link #:results none
 
-When operating on a network share, there may sometimes be failures with error messages like “ /the action can't be completed/... ”.
+When operating on a network share, there may sometimes be failures with error
+messages like “ /the action can't be completed/... ”.
 
 * Symptoms
 
