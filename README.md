@@ -1,8 +1,9 @@
-<p align="center">
-   <img src=".assets/forest-waterfall.gif" alt="banner"/>
+<p align='center'>
+   <img src='.assets/brain.svg'  width='128' alt='Brain banner'  />
+   <img src='.assets/bonsai.svg' width='128' alt='Bonsai banner' />
 </p>
 
-<h2 align="center">:vulcan_salute: Hi, I'm scheatkode</h2>
+<h2 align='center'>:vulcan_salute: Hi, I'm <i>scheatkode</i></h2>
 
 Welcome to  my digital  garden, a  clusterfuck of  thoughts and  notes with
 varying degrees of  bakedness and absurdity. Think  of it as a  vault of my
