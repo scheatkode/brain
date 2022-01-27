@@ -1,5 +1,5 @@
 <div align='center'>
-   <img src="../../../.assets/xkcd/server_problem.png" alt='' />
+   <img src='../../../.assets/xkcd/server_problem.png' alt='' />
 </div>
 
 # Table of Contents
@@ -20,69 +20,72 @@
 
 # Introduction
 
-Microsoft has  gradually increased the  efficiency and effectiveness  of its
-auditing  facilities over  the years.  Modern Windows  systems can  log vast
-amounts of  information with minimal  system impact. With  the corresponding
-decrease in  the price of  storage media, excuses  to not enable  and retain
-these  critical  pieces of  evidence  simply  don't  stand up  to  scrutiny.
-Configuring  adequate logging  on Windows  systems, and  ideally aggregating
-those logs into  a [SIEM](https://en.wikipedia.org/wiki/Security_information_and_event_management) or other  log aggregator, is a  critical step toward
-ensuring  that your  environment is  able to  support an  effective incident
-response.
+Microsoft has  gradually increased  the efficiency and  effectiveness of
+its auditing facilities  over the years. Modern Windows  systems can log
+vast  amounts  of  information  with minimal  system  impact.  With  the
+corresponding decrease  in the  price of storage  media, excuses  to not
+enable and retain  these critical pieces of evidence  simply don't stand
+up to  scrutiny. Configuring  adequate logging  on Windows  systems, and
+ideally        aggregating        those        logs        into        a
+[SIEM](https://en.wikipedia.org/wiki/Security_information_and_event_management)
+or other  log aggregator, is a  critical step toward ensuring  that your
+environment is able to support an effective incident response.
 
-This document  provides an overview  of some  of the most  important Windows
-logs and the events that are recorded there, and is intended to provide more
-detail than a mere cheat sheet while  still being short enough to serve as a
-quick reference.
+This document provides an overview of some of the most important Windows
+logs and the events that are  recorded there, and is intended to provide
+more detail  than a mere cheat  sheet while still being  short enough to
+serve as a quick reference.
 
 # Event Log format
 
-Modern Windows  system store  logs in  the `%SystemRoot%\System32\winevt\logs`
-directory  by  default in  the  binary  *XML  Windows Event  Logging*  format,
-designated by  the `.evtx` extension. Logs  can also be stored  remotely using
-*log subscriptions*. For  remote logging, a remote system  running the **Windows
-Event  Collector** service  subscribes to  subscriptions of  logs produced  by
-other systems.  The types  of logs  to be  collected can  be specified  at a
-granular level  and transport occurs  over HTTPS  on port 5986  using **WinRM**.
-GPOs  can  be used  to  configure  the  remote  logging facilities  on  each
-computer.
+Modern       Windows      system       store      logs       in      the
+`%SystemRoot%\System32\winevt\logs` directory  by default in  the binary
+*XML Windows Event Logging* format, designated by the `.evtx` extension.
+Logs can also  be stored remotely using *log  subscriptions*. For remote
+logging, a remote system running the **Windows Event Collector** service
+subscribes to subscriptions of logs produced by other systems. The types
+of  logs to  be  collected can  be  specified at  a  granular level  and
+transport occurs  over HTTPS on port  5986 using **WinRM**. GPOs  can be
+used to configure the remote logging facilities on each computer.
 
-Events can be logged in the  *Security*, *System*, *Application* event logs or, on
-modern Windows  systems, may  also appear  in several  other log  files. The
-*Setup* event log records activities  that occurred during the installation of
-Windows. The  *Forwarded Logs*  event log  is the  default location  to record
-events received from other systems. But there are also many additional logs,
-listed under  *Applications* and  *Services Logs* in  Event Viewer,  that record
-details related to  specific types of activities. Since these  log files are
-much  more targeted  than the  *Security* log,  they often  retain information
-about events  that occurred well  before the  current *Security* log  has been
-overwritten. Always look for multiple  sources of log information, and don't
-forget to look for older log files that may be captured by backup systems or
-volume shadow copies.
+Events can  be logged in  the *Security*, *System*,  *Application* event
+logs or, on modern Windows systems, may also appear in several other log
+files. The *Setup* event log records activities that occurred during the
+installation of Windows.  The *Forwarded Logs* event log  is the default
+location to  record events  received from other  systems. But  there are
+also  many additional  logs, listed  under *Applications*  and *Services
+Logs* in Event Viewer, that record  details related to specific types of
+activities.  Since these  log  files  are much  more  targeted than  the
+*Security* log, they often retain information about events that occurred
+well before the current *Security* log has been overwritten. Always look
+for multiple  sources of log information,  and don't forget to  look for
+older log files that may be  captured by backup systems or volume shadow
+copies.
 
 Event IDs have several fields in common :
 
--   **Log Name:** The  name  of  the Event  Log  where  the  event  is stored.  Useful  when
-    processing numerous logs pulled from the same system.
--   **Source:** The service, Microsoft component or application that generated the event.
--   **Event ID:** A code assigned to each type of audited activity.
--   **Level:** The severity assigned to the event in question.
--   **User:** The user account  involved in triggering the activity or  the user context
+- **Log Name:** The  name of the Event Log where  the event is stored. \
+Useful when processing numerous logs pulled from the same system.
+- **Source:** The  service,  Microsoft  component or  application that  
+generated the event.
+- **Event ID:** A code assigned to each type of audited activity.
+- **Level:** The severity assigned to the event in question.
+- **User:** The user account  involved in triggering the activity or  the user context
     that the source  was running as when  it logged the event.  Note that this
     field often  indicates *“System”*  or a user  that is not  the cause  of the
     event being recorded.
--   **OpCode:** Assigned by  the source generating  the log. It's  meaning is left  to the
+- **OpCode:** Assigned by  the source generating  the log. It's  meaning is left  to the
     source.
--   **Logged:** The local system date and time when the event was logged.
--   **Task Category:** Assigned by  the source generating  the log. It's  meaning is left  to the
+- **Logged:** The local system date and time when the event was logged.
+- **Task Category:** Assigned by  the source generating  the log. It's  meaning is left  to the
     source.
--   **Keywords:** Assigned by the source and used to group or sort events.
--   **Computer:** The computer on which the event  was logged. This is useful when examining
+- **Keywords:** Assigned by the source and used to group or sort events.
+- **Computer:** The computer on which the event  was logged. This is useful when examining
     logs collected from  multiple systems, but should not be  considered to be
     the device that caused an event (such as when a remote logon is initiated,
     the *Computer*  field will  still show  the name of  the system  logging the
     event, not the source of the connection).
--   **Description:** A  text block  where additional  information specific  to the  event being
+- **Description:** A  text block  where additional  information specific  to the  event being
     logged  is recorded.  This is  often the  most significant  field for  the
     analyst.
 
@@ -92,34 +95,34 @@ The following  events will be recorded  on the system where  the account was
 created or modified, which will be the local system for a local account or a
 domain controller for a domain account.
 
--   **4720:** A <span class="underline">user</span> account was *created*.
--   **4722:** A <span class="underline">user</span> account was *enabled.*
--   **4723:** A <span class="underline">user</span> attempted to *change* an account's password.
--   **4724:** An attempt was made to *reset* an account's password.
--   **4725:** A <span class="underline">user</span> account was *disabled*.
--   **4726:** A <span class="underline">user</span> account was *deleted*.
--   **4727:** A security-enabled <span class="underline">global group</span> was *created*.
--   **4728:** A member was *added* to a security-enabled <span class="underline">global group</span>.
--   **4729:** A member was *removed* from a security-enabled <span class="underline">global group</span>.
--   **4730:** A security-enabled <span class="underline">global group</span> was *deleted*.
--   **4731:** A security-enabled <span class="underline">local group</span> was *created*.
--   **4732:** A member was *added* to a security-enabled <span class="underline">local group</span>.
--   **4733:** A member was *removed* from a security-enabled <span class="underline">local group</span>.
--   **4734:** A security-enabled <span class="underline">local group</span> was *deleted*.
--   **4735:** A security-enabled <span class="underline">local group</span> was *changed*.
--   **4737:** A security-enabled <span class="underline">global group</span> was *changed*.
--   **4738:** A <span class="underline">user</span> account was *changed*.
--   **4741:** A <span class="underline">computer</span> account was *created*.
--   **4742:** A <span class="underline">computer</span> account was *changed*.
--   **4743:** A <span class="underline">computer</span> account was *deleted*.
--   **4754:** A security-enabled <span class="underline">universal group</span> was *created*.
--   **4755:** A security-enabled <span class="underline">universal group</span> was *changed*.
--   **4756:** A member was *added* to a security-enabled <span class="underline">universal group</span>.
--   **4757:** A member was *removed* from a security-enabled <span class="underline">universal group</span>.
--   **4758:** A security-enabled <span class="underline">universal group</span> was *deleted*.
--   **4798:** A  user's local group membership was enumerated.  Large numbers of
+- **4720:** A <span class="underline">user</span> account was *created*.
+- **4722:** A <span class="underline">user</span> account was *enabled.*
+- **4723:** A <span class="underline">user</span> attempted to *change* an account's password.
+- **4724:** An attempt was made to *reset* an account's password.
+- **4725:** A <span class="underline">user</span> account was *disabled*.
+- **4726:** A <span class="underline">user</span> account was *deleted*.
+- **4727:** A security-enabled <span class="underline">global group</span> was *created*.
+- **4728:** A member was *added* to a security-enabled <span class="underline">global group</span>.
+- **4729:** A member was *removed* from a security-enabled <span class="underline">global group</span>.
+- **4730:** A security-enabled <span class="underline">global group</span> was *deleted*.
+- **4731:** A security-enabled <span class="underline">local group</span> was *created*.
+- **4732:** A member was *added* to a security-enabled <span class="underline">local group</span>.
+- **4733:** A member was *removed* from a security-enabled <span class="underline">local group</span>.
+- **4734:** A security-enabled <span class="underline">local group</span> was *deleted*.
+- **4735:** A security-enabled <span class="underline">local group</span> was *changed*.
+- **4737:** A security-enabled <span class="underline">global group</span> was *changed*.
+- **4738:** A <span class="underline">user</span> account was *changed*.
+- **4741:** A <span class="underline">computer</span> account was *created*.
+- **4742:** A <span class="underline">computer</span> account was *changed*.
+- **4743:** A <span class="underline">computer</span> account was *deleted*.
+- **4754:** A security-enabled <span class="underline">universal group</span> was *created*.
+- **4755:** A security-enabled <span class="underline">universal group</span> was *changed*.
+- **4756:** A member was *added* to a security-enabled <span class="underline">universal group</span>.
+- **4757:** A member was *removed* from a security-enabled <span class="underline">universal group</span>.
+- **4758:** A security-enabled <span class="underline">universal group</span> was *deleted*.
+- **4798:** A  user's local group membership was enumerated.  Large numbers of
     these events may be indicative of adversary account enumeration.
--   **4799:** A security-enabled local  group membership was  enumerated. Large
+- **4799:** A security-enabled local  group membership was  enumerated. Large
     numbers of these events may be indicative of adversary group enumeration.
 
 # Account Logon and Logon Events
@@ -156,7 +159,7 @@ reason to aggregate logs to a central location.
 Event IDs of  particular interest on domain  controllers, which authenticate
 domain users, include :
 
--   **4768:** The successful issuance  of a [TGT](https://en.wikipedia.org/wiki/Ticket_Granting_Ticket) shows  that a user  account was
+- **4768:** The successful issuance  of a [TGT](https://en.wikipedia.org/wiki/Ticket_Granting_Ticket) shows  that a user  account was
     authenticated by the domain controller. The *Network Information* section of
     the  event description  contains additional  information about  the remote
     host in the event of a  remote logon attempt. The *Keywords* field indicates
@@ -164,17 +167,17 @@ domain users, include :
     a failed authentication attempt, the  result code in the event description
     provides  additional information  about  the reason  for  the failure,  as
     specified in [RFC 4120](https://tools.ietf.org/html/rfc4120). Some of the more commonly encountered codes are :
-    
+
     :Source: [Microsoft Docs](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4768)
-    
+
     <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-    
-    
+
+
     <colgroup>
     <col  class="org-right" />
-    
+
     <col  class="org-right" />
-    
+
     <col  class="org-left" />
     </colgroup>
     <thead>
@@ -184,50 +187,50 @@ domain users, include :
     <th scope="col" class="org-left">Meaning</th>
     </tr>
     </thead>
-    
+
     <tbody>
     <tr>
     <td class="org-right">6</td>
     <td class="org-right">0x6</td>
     <td class="org-left">Username not valid.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">12</td>
     <td class="org-right">0xC</td>
     <td class="org-left">Policy restriction prohibiting this logon (such as a workstation restriction or time-of-day restriction).</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">18</td>
     <td class="org-right">0x12</td>
     <td class="org-left">The account is locked out, disabled, or expired.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">23</td>
     <td class="org-right">0x17</td>
     <td class="org-left">The account's password is expired.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">24</td>
     <td class="org-right">0x18</td>
     <td class="org-left">The password is incorrect.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">32</td>
     <td class="org-right">0x20</td>
     <td class="org-left">The ticket has expired (common on computer accounts).</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">37</td>
     <td class="org-right">0x25</td>
@@ -236,7 +239,7 @@ domain users, include :
     </tbody>
     </table>
 
--   **4769:** A service ticket was requested by a user account for a specified
+- **4769:** A service ticket was requested by a user account for a specified
     resource. This  event description shows the  source IP of the  system that
     made the request,  the user account used, and the  service to be accessed.
     These  events  provide   a  useful  source  of  evidence   as  they  track
@@ -245,13 +248,13 @@ domain users, include :
     case of  a failure, the result  code indicates the reason  of the failure.
     The ticket  encryption type is  also recorded,  which might be  useful for
     detecting attacks against Kerberos.
--   **4770:** A service ticket was renewed. The account name, service name,
+- **4770:** A service ticket was renewed. The account name, service name,
     client IP address, and encryption type are recorded.
--   **4771:** Depending on the reason for a failed Kerberos logon, either Event
+- **4771:** Depending on the reason for a failed Kerberos logon, either Event
     ID 4768 or  Event ID 4771 is  created. In either case, the  result code in
     the event description provides additional information about the reason for
     the failure.
--   **4776:** This Event ID is recorded for NTLM authentication attempts. The
+- **4776:** This Event ID is recorded for NTLM authentication attempts. The
     *Network Information*  section of the event  description contains additional
     information about the remote host in  the event of a remote logon attempt.
     The *Keywords* field indicates  whether the authentication attempt succeeded
@@ -266,15 +269,15 @@ domain users, include :
     Event  ID 4776  on a  member  server or  client  is indicative  of a  user
     attempting to  authenticate to a local  account on that system  and may in
     and of itself be cause for further investigation.
-    
+
     :Source: [Microsoft Docs](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776)
-    
+
     <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-    
-    
+
+
     <colgroup>
     <col  class="org-right" />
-    
+
     <col  class="org-left" />
     </colgroup>
     <thead>
@@ -283,68 +286,68 @@ domain users, include :
     <th scope="col" class="org-left">Meaning</th>
     </tr>
     </thead>
-    
+
     <tbody>
     <tr>
     <td class="org-right">0xC0000064</td>
     <td class="org-left">The <i>username</i> is incorrect.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC000006A</td>
     <td class="org-left">The <i>password</i> is incorrect.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC000006D</td>
     <td class="org-left">Generic logon failure. Possibly bad username or password or mismatch in the LAN Manager Authentication Level between the source and target computers.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC000006F</td>
     <td class="org-left">Account logon outside authorized hours.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC0000070</td>
     <td class="org-left">Account logon from unauthorized workstation.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC0000071</td>
     <td class="org-left">Account logon with expired password.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC0000072</td>
     <td class="org-left">Account logon to account disabled by administrator.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC0000193</td>
     <td class="org-left">Account logon with expired account.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC0000224</td>
     <td class="org-left">Account logon with <i>Change Password At Next Logon</i> flagged.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC0000234</td>
     <td class="org-left">Account logon with account locked.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">0xC0000371</td>
     <td class="org-left">The local account store does not contain secret material for the specified account.</td>
@@ -354,7 +357,7 @@ domain users, include :
 
 On systems being accessed, Event IDs of note include :
 
--   **4624:** A logon to a system has occurred. Type 2 indicates an interactive
+- **4624:** A logon to a system has occurred. Type 2 indicates an interactive
     (usually local)  logon, whereas  a Type  3 indicates  a remote  or network
     logon. The event  description will contain information about  the host and
     account name involved. For remote logons, focus on the *Network Information*
@@ -372,16 +375,16 @@ On systems being accessed, Event IDs of note include :
     credentials being  cached in RAM and  possibly on disk. Use  of *Restricted
     Admin* mode  may impact  this. Failed  RDP logons  usually result  in Logon
     Type 3.
-    
+
     :Source: [Ultimate Windows Security](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4624)
     :Source: [Microsoft Docs](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc787567(v=ws.10))
-    
+
     <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-    
-    
+
+
     <colgroup>
     <col  class="org-right" />
-    
+
     <col  class="org-left" />
     </colgroup>
     <thead>
@@ -390,56 +393,56 @@ On systems being accessed, Event IDs of note include :
     <th scope="col" class="org-left">Description</th>
     </tr>
     </thead>
-    
+
     <tbody>
     <tr>
     <td class="org-right">2</td>
     <td class="org-left"><i>Interactive</i>, such as logon at keyboard and screen of the system, or remotely using third-party remote access tools like VNC, or psexec with the -u switch. Logons of this type will cache the user’s credentials in RAM for the duration of the session and may cache the user’s credentials on disk.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">3</td>
     <td class="org-left"><i>Network</i>, such as access to a shared folder on this computer from elsewhere on the network. This represents a noninteractive logon, which does not cache the user’s credentials in RAM or on disk.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">4</td>
     <td class="org-left"><i>Batch</i> (indicating a scheduled task). Batch logon type is used by batch servers, where processes may be executing on behalf of a user without their direct intervention.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">5</td>
     <td class="org-left"><i>Service</i>, indicates that a service was started by the Service Control Manager.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">7</td>
     <td class="org-left"><i>Unlock</i> indicates that an unattended workstation with a password protected screen is unlocked.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">8</td>
     <td class="org-left"><i>NetworkCleartext</i> indicates that a user logged on to this computer from the network and the user’s password was passed to the authentication package in its unhashed form. The built-in authentication packages all hash credentials before sending them across the network. The credentials do not traverse the network in plaintext. Most often indicates a logon to Internet Information Services (IIS) with basic authentication.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">9</td>
     <td class="org-left"><i>NewCredentials</i> indicates that a user logged on with alternate credentials to perform actions such as with RunAs or mapping a network drive. If you want to track users attempting to log on with alternate credentials, also look for Event ID 4648.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">10</td>
     <td class="org-left"><i>RemoteInteractive</i> indicates that Terminal Services, Remote Desktop, or Remote Assistance for an interactive logon. See the note on RDP at the end of this section for more details.</td>
     </tr>
-    
-    
+
+
     <tr>
     <td class="org-right">11</td>
     <td class="org-left"><i>CachedInteractive</i> (logon with cached domain credentials such as when logging on to a laptop when away from the network). The domain controller was not contacted to verify the credential, so no account logon entry is generated.</td>
@@ -447,7 +450,7 @@ On systems being accessed, Event IDs of note include :
     </tbody>
     </table>
 
--   **4625 :** A  failed  logon attempt.  Large numbers  of  these throughout  a
+- **4625 :** A  failed  logon attempt.  Large numbers  of  these throughout  a
     network  may  be indicative  of  password  guessing or  password  spraying
     attacks. Again, the  Network Information section of  the event description
     can provide valuable information about a  remote host attempting to log on
@@ -598,7 +601,7 @@ event :
 </tbody>
 </table>
 
--   **4634/4647:** User  logoff is recorded by  Event ID 4634 or  Event ID 4647.
+- **4634/4647:** User  logoff is recorded by  Event ID 4634 or  Event ID 4647.
     The lack  of an  event showing  a logoff should  not be  considered overly
     suspicious, as  Windows is inconsistent in  logging Event ID 4634  in many
     cases. The Logon ID field can be used to tie the Event ID 4624 logon event
@@ -610,14 +613,14 @@ event :
     provide a  better sense  of session  duration, but  Windows is  not overly
     consistent in  logging Event ID  4634 and  may disconnect sessions  due to
     inactivity well after a user stopped actively interacting with a session.
--   **4648:** A logon  was attempted  using explicit  credentials. When  a user
+- **4648:** A logon  was attempted  using explicit  credentials. When  a user
     attempts to use credentials other than the ones used for the current logon
     session (including bypassing User Account  Control [UAC] to open a process
     with administrator permissions), this event is logged.
--   **4672:** This Event ID is  recorded when certain privileges associated with
+- **4672:** This Event ID is  recorded when certain privileges associated with
     elevated or administrator access are granted to a logon. As with all logon
     events, the event log will be generated by the system being accessed.
--   **4778:** This  event is logged when  a session is reconnected  to a Windows
+- **4778:** This  event is logged when  a session is reconnected  to a Windows
     station. This can occur locally when the user context is switched via fast
     user switching. It can also occur  when a session is reconnected over RDP.
     The initial connection over RDP is  logged with Event ID 4624 as mentioned
@@ -626,7 +629,7 @@ event :
     field will contain **Console**, and if remote, it will begin with **RDP**. For RDP
     sessions, the remote  host information will be in  the *Network Information*
     section of the event description.
--   **4779:** This event is  logged when a  session is disconnected.  This can
+- **4779:** This event is  logged when a  session is disconnected.  This can
     occur locally when  the user context is switched via  fast user switching.
     It can also  occur when a session  is reconnected over RDP.  A full logoff
     from an  RDP session  is logged with  Event ID 4637  or 4647  as mentioned
@@ -661,16 +664,16 @@ can also be enabled in the  Group Policy Management Console by navigating to
 File Share**.  Once enabled,  the following  Event IDs will  be logged  in the
 *Security* log :
 
--   **5140:** A network share object  was accessed. The event entry provides the
+- **5140:** A network share object  was accessed. The event entry provides the
     account name and  source address of the account that  accessed the object.
     Note that this  entry will show that  the share was accessed  but not what
     files in the  share were accessed. A  large number of these  events from a
     single account may be an indicator of  an account being used to harvest or
     map data on the network.
--   **5142:** A network share object was added.
--   **5143:** A network share object was modified.
--   **5144:** A network share object was deleted.
--   **5145:** A  network share object was  checked to see whether  client can be
+- **5142:** A network share object was added.
+- **5143:** A network share object was modified.
+- **5144:** A network share object was deleted.
+- **5145:** A  network share object was  checked to see whether  client can be
     granted desired access. Failure is only logged if the permission is denied
     at the file share level. If permission is denied at the NTFS level then no
     entry is recorded.
@@ -695,21 +698,21 @@ then                                                                     the
 log will record activity relating to  scheduled tasks on the local system as
 follows :
 
--   **106 :** Scheduled  Task *Created*.  The entry  shows the  user account  that
+- **106 :** Scheduled  Task *Created*.  The entry  shows the  user account  that
     scheduled the task and the name the  user assigned to the task. The *Logged*
     date and  time show when the  task was scheduled. Look  for the associated
     Event ID 200 and 201 for additional information.
--   **140 :** Scheduled  Task *Updated*.  The entry  shows the  user account  that
+- **140 :** Scheduled  Task *Updated*.  The entry  shows the  user account  that
     updated the task and  the name of the task. The *Logged*  date and time show
     when the task  was updated. Look for  the associated Event ID  200 and 201
     for additional information.
--   **141 :** Scheduled  Task *Deleted*.  The entry  shows the  user account  that
+- **141 :** Scheduled  Task *Deleted*.  The entry  shows the  user account  that
     deleted the task and the name of the task.
--   **200:** Scheduled Task  *Executed*. Shows the task name and  the full path to
+- **200:** Scheduled Task  *Executed*. Shows the task name and  the full path to
     the executable on disk that was run (listed as the *Action*). Correlate this
     with  the associated  Event  ID 106  to determine  the  user account  that
     scheduled the task.
--   **201:** Scheduled Task *Completed*. Shows the  task name and the full path to
+- **201:** Scheduled Task *Completed*. Shows the  task name and the full path to
     the executable on disk that was run (listed as the *Action*). Correlate this
     with  the associated  Event  ID 106  to determine  the  user account  that
     scheduled the task.
@@ -731,34 +734,34 @@ record  all object  access on  the system.  Object access  audit events  are
 stored in the *Security* log. If  object access auditing is enabled, scheduled
 tasks get additional logging. The Event IDs related to scheduled tasks are :
 
--   **4698:** A  scheduled task was *created*. The event  description contains the
+- **4698:** A  scheduled task was *created*. The event  description contains the
     user account that created the task  in the Subject section. XML details of
     the scheduled  task are also recorded  in the event description  under the
     Task Description  section and includes  the Task Name. Additional  tags of
     interest include the following :
-    -   **`<Date>`:** shows the  time of  the logged event  and matches  the *Logged*
+    - **`<Date>`:** shows the  time of  the logged event  and matches  the *Logged*
         field of the event itself.
-    -   **`<Author>`:** shows  the user that originally created the  task, this does
+    - **`<Author>`:** shows  the user that originally created the  task, this does
         not change if another user later updates the task (see Event ID 4702 for
         additional information about  how to determine whether  a scheduled task
         was updated).
-    -   **`<Description>`:** shows the description entered by the user.
-    -   **`<Triggers>`:** provides information on when the task is scheduled to run.
-    -   **`<User ID>`:** shows the user context under which the task will run, which
+    - **`<Description>`:** shows the description entered by the user.
+    - **`<Triggers>`:** provides information on when the task is scheduled to run.
+    - **`<User ID>`:** shows the user context under which the task will run, which
         may be different  than the account used to schedule  the task. If `<Logon
               Type>` shows *Password*, then the password  for the account listed in `<User
               ID>` was entered  at the time the task was  scheduled, which may indicate
         additionally compromised account.
-    -   **`<Command>`  :** shows  the  path to  the executable  that  will run.  Any
+    - **`<Command>`  :** shows  the  path to  the executable  that  will run.  Any
         arguments specified will be listed in the `<Arguments>` tag.
--   **4699:** A scheduled task  was *deleted*. The  *Subject* section of  the event
+- **4699:** A scheduled task  was *deleted*. The  *Subject* section of  the event
     description contains the *Account Name* that deleted the task as well as the
     *Task Name*.
--   **4700:** A scheduled task  was *enabled*. See  Event ID 4698  for additional
+- **4700:** A scheduled task  was *enabled*. See  Event ID 4698  for additional
     details.
--   **4701:** A scheduled task was  *disabled*. See Event ID  4698 for additional
+- **4701:** A scheduled task was  *disabled*. See Event ID  4698 for additional
     details.
--   **4702:** A  scheduled task was *updated*. The user  who initiated the update
+- **4702:** A  scheduled task was *updated*. The user  who initiated the update
     appears in  the *Subject* section of  the event description. The  details of
     the  task after  its  modification are  listed  in the  XML  in the  event
     description. Compare with previous Event ID  4702 or 4698 entries for this
@@ -779,7 +782,7 @@ handle to  that object. Once  auditing is  enabled, the event  IDs described
 below can be used to view access  to important files and folders by tracking
 the issuance and use of handles to those objects.
 
--   **4656:** A  handle to an object  was requested. When a  process attempts to
+- **4656:** A  handle to an object  was requested. When a  process attempts to
     gain a handle to an audited object,  this event is created. The details of
     the object to which the handle was requested and the handle ID assigned to
     the handle  are listed  in the  *Object* section  of the  event description.
@@ -795,22 +798,22 @@ the issuance and use of handles to those objects.
     determine which permissions were used. You can also try to determine other
     actions  taken by  the  same user  during that  session  by searching  for
     occurrences of the Logon ID (which is also unique between reboots).
--   **4657 :** A  registry  value was  modified. The  user  account and  process
+- **4657 :** A  registry  value was  modified. The  user  account and  process
     responsible for  opening the handle  are listed in the  event description.
     The *Object*  section contains  details of  the modification,  including the
     *Object Name* field, which indicates the  full path and name of the registry
     key where the value was modified. The *Object Value Name* field contains the
     name of  the modified registry key  value. Note that this  event generates
     only when a key value is modified, not if the key itself is modified.
--   **4658:** The handle  to an object was closed. The  user account and process
+- **4658:** The handle  to an object was closed. The  user account and process
     responsible for opening the handle are listed in the event description. To
     determine the object itself, refer to the preceding Event ID 4656 with the
     same Handle ID.
--   **4660:** An object was deleted.  The user account and  process responsible
+- **4660:** An object was deleted.  The user account and  process responsible
     for opening the  handle are listed in the event  description. To determine
     the object  itself, refer  to the  preceding Event ID  4656 with  the same
     Handle ID.
--   **4663:** An attempt was made to access an object. This event is logged when
+- **4663:** An attempt was made to access an object. This event is logged when
     a process attempts  to interact with an object, rather  than just obtain a
     handle to  the object. This  can be used to  help determine what  types of
     actions may have been taken on an object (for example, read only or modify
@@ -944,7 +947,7 @@ by  an attacker  or legitimately  by an  administrator. Fortunately,  modern
 Windows systems do a good job of  logging these changes when they occur. The
 Event ID used for this auditing is 4719:
 
--   **4719:** System  audit policy was changed. The *Audit  Policy Change* section
+- **4719:** System  audit policy was changed. The *Audit  Policy Change* section
     will list  the specific changes  that were made  to the audit  policy. The
     *Subject* section  of the event description  may show the account  that made
     the  change, but  often (such  as when  the change  is made  through Group
@@ -954,7 +957,7 @@ Event ID used for this auditing is 4719:
     and  here, and  there  are  a number  of  third-party  tools that  provide
     additional visibility and accountability  in modifications to Group Policy
     Objects.
--   **1102:** Regardless of the settings  in the audit policy,  if the *Security*
+- **1102:** Regardless of the settings  in the audit policy,  if the *Security*
     event log is cleared, Event ID 1102 will be recorded as the first entry in
     the new, blank log. You can tell the name of the user account that cleared
     the log  in the details  of the  entry. A similar  event, with ID  104, is
@@ -968,26 +971,26 @@ mentioned so far have been found  in the *Security Event Log*, Windows records
 events related to starting and stopping of services in the *System Event Log*.
 The following events are often noteworthy :
 
--   **6005:** The event log service was  started. This will occur at system boot
+- **6005:** The event log service was  started. This will occur at system boot
     time, and  whenever the system  is manually  started. Since the  event log
     service is critical for security, it gets is own Event ID.
--   **6006:** The event log service  was stopped. While this obviously occurs at
+- **6006:** The event log service  was stopped. While this obviously occurs at
     system  shutdown  or  restart,  its  occurrence  at  other  times  may  be
     indicative of malicious attempts to avoid logging of activity or to modify
     the logs.
--   **7034 :** A  service terminated  unexpectedly. The  event description  will
+- **7034 :** A  service terminated  unexpectedly. The  event description  will
     display the name of the services and  may display the number of times that
     this service has crashed.
--   **7036:** A service was stopped or  started. While the event log service has
+- **7036:** A service was stopped or  started. While the event log service has
     its own Event ID,  other services are logged under the  same Event ID. The
     event description  provides the  name of  the service,  but no  details of
     which  user  account  requested  the  service to  stop  is  provided.  The
     description will indicate that the  service entered the running state when
     it is started or entered the stopped state when it is stopped.
--   **7040:** The start type for  a service was changed.  The event description
+- **7040:** The start type for  a service was changed.  The event description
     will display  the name of  the service that  was changed and  describe the
     change that was made.
--   **7045:** A service was installed by  the system. The name of the service is
+- **7045:** A service was installed by  the system. The name of the service is
     found in  the *Service Name*  field of the  event description, and  the full
     path to the associated executable is found in the *Service File Name* field.
     This can be a particularly important  event as many tools, such as PsExec,
@@ -1013,12 +1016,12 @@ allowed   to   leave    your   environment.   The   log    is   located   at
 `%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-WLANAutoConfig%4Operational.evtx`.
 Event IDs of interest are :
 
--   **8001:** WLAN service has successfully connected to a wireless network. The
+- **8001:** WLAN service has successfully connected to a wireless network. The
     event description provides  the Connection Mode indicating if  this was an
     automatic connection  based on  a configured  profile (and  the associated
     Profile Name)  or a manual connection.  The SSID of the  access point, its
     authentication mechanism, and its encryption mechanism are also recorded.
--   **8002:** WLAN service failed to  connect to a wireless network. Once again,
+- **8002:** WLAN service failed to  connect to a wireless network. Once again,
     the event description will contain the Connection Mode, associated Profile
     Name, and the SSID along with a Failure Reason field.
 
@@ -1053,7 +1056,7 @@ make users aware of the change in  audit policy. Once enabled, Event ID 4688
 in the  *Security* log  provides a wealth  of information  regarding processes
 that have been run on the system :
 
--   **4688:** A new process has been created. The event description provides the
+- **4688:** A new process has been created. The event description provides the
     **Process ID** and **Process Name**, **Creator Process ID**, **Creator Process Name**, and
     **Process Command Line**  (if enabled separately, as outlined  earlier in this
     section). In addition to the details  about the process, details about the
@@ -1120,31 +1123,31 @@ that  contains information  about potential  malware that  was detected  and
 suspicious  scripts that  were  run  (as reported  by  the Antimalware  Scan
 Interface [AMSI]). Event IDs of potential interest in this log include :
 
--   **1006:** The Antimalware engine found malware or other potentially unwanted
+- **1006:** The Antimalware engine found malware or other potentially unwanted
     software.
--   **1007:** The  Antimalware platform  performed  an  action  to protect  your
+- **1007:** The  Antimalware platform  performed  an  action  to protect  your
     system from malware or other potentially unwanted software.
--   **1008:** The Antimalware platform attempted to perform an action to protect
+- **1008:** The Antimalware platform attempted to perform an action to protect
     your system from  malware or other potentially unwanted  software, but the
     action failed.
--   **1013:** The  Antimalware platform  deleted history  of  malware  and other
+- **1013:** The  Antimalware platform  deleted history  of  malware  and other
     potentially unwanted software.
--   **1015:** The Antimalware platform detected suspicious behavior.
--   **1116:** The Antimalware  platform detected  malware  or  other potentially
+- **1015:** The Antimalware platform detected suspicious behavior.
+- **1116:** The Antimalware  platform detected  malware  or  other potentially
     unwanted software.
--   **1117:** The  Antimalware platform  performed  an action  to  protect  your
+- **1117:** The  Antimalware platform  performed  an action  to  protect  your
     system from malware or other potentially unwanted software.
--   **1118:** The Antimalware platform attempted to perform an action to protect
+- **1118:** The Antimalware platform attempted to perform an action to protect
     your system from  malware or other potentially unwanted  software, but the
     action failed.
--   **1119:** The Antimalware platform  encountered a critical error when trying
+- **1119:** The Antimalware platform  encountered a critical error when trying
     to take action on malware or other potentially unwanted software.
--   **5001:** Real-time protection is disabled.
--   **5004:** The real-time protection configuration changed.
--   **5007:** The Antimalware platform configuration changed.
--   **5010:** Scanning for malware  and other potentially unwanted  software  is
+- **5001:** Real-time protection is disabled.
+- **5004:** The real-time protection configuration changed.
+- **5007:** The Antimalware platform configuration changed.
+- **5010:** Scanning for malware  and other potentially unwanted  software  is
     disabled.
--   **5012:** Scanning for viruses is disabled.
+- **5012:** Scanning for viruses is disabled.
 
 Additional details on Windows Defender event log records can be found [here](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-antivirus/troubleshoot-windows-defender-antivirus).
 
@@ -1167,38 +1170,37 @@ which is now a part of Microsoft. Sysmon can be freely downloaded [here](https:/
 When deployed  on a system, Sysmon  installs as a system  service and device
 driver to generate event logs related to processes, network connections, and
 modifications to file creation times. It creates a new category of logs that
-are   presented   in   Event   Viewer  under   `Applications   and   Services
-  Logs\Microsoft\Windows\Sysmon\Operational`      and     is      stored     in
-`C:\Windows\System32\winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx`.
+are   presented   in   Event   Viewer  under   `Applications   and   Services Logs\Microsoft\Windows\Sysmon\Operational`
+and     is      stored     in `C:\Windows\System32\winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx`.
 An example of useful event IDs generated by Sysmon include :
 
--   **1  :** Process creation (includes many details such as process ID, path to
+- **1  :** Process creation (includes many details such as process ID, path to
     executable, hash of executable, command  line used to launch, user account
     used  to launch,  parent  process ID,  path and  command  line for  parent
     executable, and more).
--   **2  :** A process changed a file creation time.
--   **3  :** Network connection.
--   **4  :** Sysmon service state changed.
--   **5  :** Process terminated.
--   **6  :** Driver loaded.
--   **7  :** Image  loaded  (records when  a  module is  loaded  in  a  specific
+- **2  :** A process changed a file creation time.
+- **3  :** Network connection.
+- **4  :** Sysmon service state changed.
+- **5  :** Process terminated.
+- **6  :** Driver loaded.
+- **7  :** Image  loaded  (records when  a  module is  loaded  in  a  specific
     process).
--   **8  :** `CreateRemoteThread` (creating a thread in another process).
--   **9  :** `RawAccessRead` (raw access to drive data using `\\.\` notation).
--   **10 :** `ProcessAccess` (opening access to another process’s memory space).
--   **11 :** `FileCreate` (creating or overwriting a file).
--   **12 :** Registry key or value created or deleted.
--   **13 :** Registry value modification.
--   **14 :** Registry key or value renamed.
--   **15 :** `FileCreateStreamHash` (creation of an alternate data stream).
--   **16 :** Sysmon configuration change.
--   **17 :** Named pipe created.
--   **18 :** Named pipe connected.
--   **19 :** `WMIEventFilter` activity detected.
--   **20 :** `WMIEventConsumer` activity detected.
--   **21 :** `WMIEventConsumerToFilter` activity detected.
--   **22 :** DNS query event (Windows 8 and later).
--   **255:** Sysmon error.
+- **8  :** `CreateRemoteThread` (creating a thread in another process).
+- **9  :** `RawAccessRead` (raw access to drive data using `\\.\` notation).
+- **10 :** `ProcessAccess` (opening access to another process’s memory space).
+- **11 :** `FileCreate` (creating or overwriting a file).
+- **12 :** Registry key or value created or deleted.
+- **13 :** Registry value modification.
+- **14 :** Registry key or value renamed.
+- **15 :** `FileCreateStreamHash` (creation of an alternate data stream).
+- **16 :** Sysmon configuration change.
+- **17 :** Named pipe created.
+- **18 :** Named pipe connected.
+- **19 :** `WMIEventFilter` activity detected.
+- **20 :** `WMIEventConsumer` activity detected.
+- **21 :** `WMIEventConsumerToFilter` activity detected.
+- **22 :** DNS query event (Windows 8 and later).
+- **255:** Sysmon error.
 
 # PowerShell Use Auditing
 
@@ -1209,17 +1211,17 @@ Configuration** → **Policies**  → **Administrative Templates** →  **Window
 **Windows PowerShell**. There are three basic  categories of logging that may be
 available, depending on the version of Windows in question :
 
--   Module Logging
-   -   Logs pipeline execution events
-   -   Logs to event logs
--   Script Block Logging
-   -   Captures de-obfuscated commands sent to PowerShell
-   -   Captures the commands only, not the resulting output
-   -   Logs to event logs
--   Transcription
-   -   Captures PowerShell input and output
-   -   Will not capture output of outside programs that are run, only PowerShell
-   -   Logs to text files in user specified location
+- Module Logging
+   - Logs pipeline execution events
+   - Logs to event logs
+- Script Block Logging
+   - Captures de-obfuscated commands sent to PowerShell
+   - Captures the commands only, not the resulting output
+   - Logs to event logs
+- Transcription
+   - Captures PowerShell input and output
+   - Will not capture output of outside programs that are run, only PowerShell
+   - Logs to text files in user specified location
 
 Once enabled, these logs can provide  a wealth of information concerning the
 use of PowerShell  on your systems. If you routinely  run lots of PowerShell
@@ -1231,11 +1233,11 @@ PowerShell  event log  entries appear  in  different event  logs. Inside  of
 `%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-PowerShell%4Operational.evtx`
 you will find two events of particular note :
 
--   **4103 :** Shows  pipeline  execution from  the  module  logging  facility.
+- **4103 :** Shows  pipeline  execution from  the  module  logging  facility.
     Includes the  user context used to  run the commands. *Hostname*  field will
     contain `Console`  if executed  locally or  will show if  run from  a remote
     system.
--   **4104:** Shows script block logging  entries. Captures the commands sent to
+- **4104:** Shows script block logging  entries. Captures the commands sent to
     PowerShell, but  not the output. Logs  full details of each  block only on
     first  use to  conserve  space. Will  show  as a  Warning  level event  if
     Microsoft deems the activity Suspicious.
@@ -1243,8 +1245,8 @@ you will find two events of particular note :
 Additional       entries        can       be       found        in       the
 `%SystemRoot%\System32\winevt\Logs\Windows PowerShell.evtx` log :
 
--   **400:** Indicates the start of command execution or session. *Hostname* field shows if (local) `Console` or the remote session that caused the execution.
--   **800:** Shows pipeline execution details. *UserID* shows account used. *Hostname* field shows if (local) `Console` or the remote session that caused the execution. Since many malicious scripts encode options with Base64, check the *HostApplication* field for options encoded with the `-enc` or `-EncodedCommand` parameter.
+- **400:** Indicates the start of command execution or session. *Hostname* field shows if (local) `Console` or the remote session that caused the execution.
+- **800:** Shows pipeline execution details. *UserID* shows account used. *Hostname* field shows if (local) `Console` or the remote session that caused the execution. Since many malicious scripts encode options with Base64, check the *HostApplication* field for options encoded with the `-enc` or `-EncodedCommand` parameter.
 
 Remember that PowerShell Remoting requires authenticated access, so look for
 the associated *Account Logon* And *Logon* events as well.
