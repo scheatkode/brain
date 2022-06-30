@@ -64,36 +64,37 @@ copies.
 
 Event IDs have several fields in common :
 
-- **Log Name:** The  name of the Event Log where  the event is stored. \
-Useful when processing numerous logs pulled from the same system.
-- **Source:** The  service,  Microsoft  component or  application that  
-generated the event.
+- **Log Name:** The name  of  the Event Log  where the event  is stored.
+  Useful when processing numerous logs pulled from the same system.
+- **Source:** The  service,   Microsoft  component or  application that
+  generated the event.
 - **Event ID:** A code assigned to each type of audited activity.
 - **Level:** The severity assigned to the event in question.
-- **User:** The user account  involved in triggering the activity or  the user context
-    that the source  was running as when  it logged the event.  Note that this
-    field often  indicates *“System”*  or a user  that is not  the cause  of the
-    event being recorded.
-- **OpCode:** Assigned by  the source generating  the log. It's  meaning is left  to the
-    source.
+- **User:** The user account involved  in triggering the activity or the
+  user context that the source was  running as when it logged the event.
+  Note that this field often indicates  *“System”* or a user that is not
+  the cause of the event being recorded.
+- **OpCode:** Assigned by the source generating the log. It's meaning is
+  left to the source.
 - **Logged:** The local system date and time when the event was logged.
-- **Task Category:** Assigned by  the source generating  the log. It's  meaning is left  to the
-    source.
+- **Task  Category:** Assigned  by the source  generating the  log. It's
+  meaning is left to the source.
 - **Keywords:** Assigned by the source and used to group or sort events.
-- **Computer:** The computer on which the event  was logged. This is useful when examining
-    logs collected from  multiple systems, but should not be  considered to be
-    the device that caused an event (such as when a remote logon is initiated,
-    the *Computer*  field will  still show  the name of  the system  logging the
-    event, not the source of the connection).
-- **Description:** A  text block  where additional  information specific  to the  event being
-    logged  is recorded.  This is  often the  most significant  field for  the
-    analyst.
+- **Computer:**  The computer  on which  the event  was logged.  This is
+  useful when examining logs collected from multiple systems, but should
+  not be considered to be the device  that caused an event (such as when
+  a remote logon is initiated, the  *Computer* field will still show the
+  name  of  the  system  logging  the  event,  not  the  source  of  the
+  connection).
+- **Description:** A text block where additional information specific to
+  the event being logged is recorded. This is often the most significant
+  field for the analyst.
 
 # Account Management Events
 
-The following  events will be recorded  on the system where  the account was
-created or modified, which will be the local system for a local account or a
-domain controller for a domain account.
+The following  events will be recorded  on the system where  the account
+was created  or modified,  which will  be the local  system for  a local
+account or a domain controller for a domain account.
 
 - **4720:** A <span class="underline">user</span> account was *created*.
 - **4722:** A <span class="underline">user</span> account was *enabled.*
@@ -127,46 +128,52 @@ domain controller for a domain account.
 
 # Account Logon and Logon Events
 
-*Account Logon*  is the Microsoft term  for authentication. Logon is  the term
-used to refer to an account gaining access to a resource. Both Account Logon
-and Logon events will be recorded  in the *Security* event log. Authentication
-(account  logon) of  domain accounts  is  performed by  a domain  controller
-within a  Windows network. Local accounts  (those that exist within  a local
-[SAM](https://en.wikipedia.org/wiki/Security_Account_Manager) file rather than as a part of Active Directory) are authenticated by the
-local system  where they exist. Account  logon events will be  logged by the
-system that performs the authentication. Auditing of Account Logon and Logon
-events  is easily  set  by GPO.  While Microsoft  continues  to enable  more
-logging by default  as new versions of Windows  are released, administrators
-should review  their audit policies  on a regular  basis to ensure  that all
-systems are  generating adequate logs.  The ability  to store event  logs on
-remote systems (either using the native Microsoft remote logging features, a
-third-party SIEM,  or other tools)  helps safeguard logs from  alteration or
-destruction.
+*Account Logon* is  the Microsoft term for authentication.  Logon is the
+term used  to refer  to an  account gaining access  to a  resource. Both
+Account Logon and Logon events will  be recorded in the *Security* event
+log. Authentication (account logon) of domain accounts is performed by a
+domain controller within  a Windows network. Local  accounts (those that
+exist                  within                   a                  local
+[SAM](https://en.wikipedia.org/wiki/Security_Account_Manager)       file
+rather than  as a  part of  Active Directory)  are authenticated  by the
+local system  where they exist. Account  logon events will be  logged by
+the system that  performs the authentication. Auditing  of Account Logon
+and Logon  events is  easily set  by GPO.  While Microsoft  continues to
+enable more logging by default as  new versions of Windows are released,
+administrators should review their audit  policies on a regular basis to
+ensure that  all systems  are generating adequate  logs. The  ability to
+store event  logs on remote  systems (either using the  native Microsoft
+remote  logging features,  a  third-party SIEM,  or  other tools)  helps
+safeguard logs from alteration or destruction.
 
-The domain controllers in the network  should therefore be able to provide a
-fairly  centralized   accounting  of   which  accounts   were  authenticated
-throughout the domain. Remember that to get a full picture, you will need to
-query  each of  your  DCs since  the one  that  performs the  authentication
-creates the associated event log. On the other hand, if you find that member
-servers or workstations  are performing their own authentication,  that is a
-good  indicator that  local user  accounts are  being used.  As this  is not
-normally  done in  most  environments, account  logon  events on  non-domain
-controllers  can often  be an  indicator of  compromise. By  contrast, Logon
-event logs  are generated  by the  system that is  being accessed,  so Logon
-events will  be generated by  systems across the network,  providing another
-reason to aggregate logs to a central location.
+The  domain controllers  in  the  network should  therefore  be able  to
+provide  a   fairly  centralized  accounting  of   which  accounts  were
+authenticated  throughout  the  domain.  Remember that  to  get  a  full
+picture, you  will need  to query each  of your DCs  since the  one that
+performs the  authentication creates  the associated  event log.  On the
+other  hand,  if  you  find  that member  servers  or  workstations  are
+performing their own authentication, that is a good indicator that local
+user  accounts are  being used.  As this  is not  normally done  in most
+environments, account  logon events on non-domain  controllers can often
+be  an  indicator of  compromise.  By  contrast,  Logon event  logs  are
+generated by the system that is  being accessed, so Logon events will be
+generated by  systems across  the network,  providing another  reason to
+aggregate logs to a central location.
 
-Event IDs of  particular interest on domain  controllers, which authenticate
-domain users, include :
+Event  IDs   of  particular   interest  on  domain   controllers,  which
+authenticate domain users, include :
 
-- **4768:** The successful issuance  of a [TGT](https://en.wikipedia.org/wiki/Ticket_Granting_Ticket) shows  that a user  account was
-    authenticated by the domain controller. The *Network Information* section of
-    the  event description  contains additional  information about  the remote
-    host in the event of a  remote logon attempt. The *Keywords* field indicates
-    whether the authentication attempt was successful  or not. In the event of
-    a failed authentication attempt, the  result code in the event description
-    provides  additional information  about  the reason  for  the failure,  as
-    specified in [RFC 4120](https://tools.ietf.org/html/rfc4120). Some of the more commonly encountered codes are :
+- **4768:**       The      successful      issuance       of           a
+  [TGT](https://en.wikipedia.org/wiki/Ticket_Granting_Ticket) shows that
+  a  user  account  was  authenticated by  the  domain  controller.  The
+  *Network  Information*  section  of  the  event  description  contains
+  additional information about the remote host  in the event of a remote
+  logon   attempt.   The   *Keywords*  field   indicates   whether   the
+  authentication attempt was successful or not. In the event of a failed
+  authentication  attempt,  the result  code  in  the event  description
+  provides additional information  about the reason for  the failure, as
+  specified in [RFC  4120](https://tools.ietf.org/html/rfc4120). Some of
+  the more commonly encountered codes are :
 
     :Source: [Microsoft Docs](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4768)
 
@@ -1245,9 +1252,26 @@ you will find two events of particular note :
 Additional       entries        can       be       found        in       the
 `%SystemRoot%\System32\winevt\Logs\Windows PowerShell.evtx` log :
 
-- **400:** Indicates the start of command execution or session. *Hostname* field shows if (local) `Console` or the remote session that caused the execution.
-- **800:** Shows pipeline execution details. *UserID* shows account used. *Hostname* field shows if (local) `Console` or the remote session that caused the execution. Since many malicious scripts encode options with Base64, check the *HostApplication* field for options encoded with the `-enc` or `-EncodedCommand` parameter.
+- **400:** Indicates the start of command execution or session. *Hostname*
+    field shows if (local) `Console` or the remote session that caused the
+    execution.
+- **800:** Shows pipeline execution details. *UserID* shows account used.
+    *Hostname* field shows if (local) `Console` or the remote session that
+    caused the execution. Since many malicious scripts encode options with
+    Base64, check the *HostApplication* field for options encoded with the
+    `-enc` or `-EncodedCommand` parameter.
 
 Remember that PowerShell Remoting requires authenticated access, so look for
 the associated *Account Logon* And *Logon* events as well.
 
+# Shutdown and Restart Auditing
+
+- **41 :** The system has rebooted without cleanly shutting down first. This
+    error could be caused if the system stopped responding, crashed, or lost
+    power unexpectedly.
+- **1074 :** Logged when an app (ex: Windows Update) causes the system to
+    restart, or when a user initiates a restart or shutdown.
+- **6006 :** Logged as a clean shutdown. It gives the message "The Event log
+    service was stopped".
+- **6008 :** Logged as a dirty shutdown. It gives the message "The previous
+    system shutdown at time on date was unexpected".
