@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="../../../.assets/banners/virtualized-windows-cpu-consumption.md" alt="banner" />
+   <img src="../../../.assets/banners/virtualized-windows-cpu-consumption.gif" alt="banner" />
 </p>
 
 <h1 align="center">Virtualized Windows CPU consumption</h1>
