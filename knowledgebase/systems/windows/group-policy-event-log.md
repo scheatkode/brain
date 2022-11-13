@@ -4,7 +4,7 @@ When shit hits the fan and your GPOs start getting flaky and don’t get
 applied, worry not for here is a list of event codes to troubleshoot your
 issue. Most certainly, you’ll find the source of your issue in one of these.
 
-## *But I'm lazy or* ... <insert whatever reason here>
+## *But I'm lazy* ... [or insert whatever reason here]
 
 Sure thing, just paste this into your event viewer.
 
