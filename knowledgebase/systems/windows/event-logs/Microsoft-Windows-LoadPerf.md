@@ -1,0 +1,34 @@
+# Microsoft-Windows-LoadPerf
+
+<table>
+<colgroup><col/><col/><col/></colgroup>
+<tr><th>Name</th><th>Id</th><th>Description</th></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>1000</td><td>Performance counters for the %1 (%2) service were loaded successfully. The Record Data in the data section contains the new index values assigned to this service.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>1001</td><td>Performance counters for the %1 (%2) service were removed successfully. The Record Data contains the new values of the system Last Counter and Last Help registry entries.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>1002</td><td>Performance counters for the %1 (%2) service are already in the registry, no need to reinstall. This only happens when you install the same counter twice. The second time install will generate this event.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>2001</td><td>No MOF file %2 was created for the %1 service. Before the performance counters of this service can be collected by WMI, a MOF file will need to be created and loaded manually. Contact the vendor of this service for additional information.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>2002</td><td>The MOF file created for the %1 service could not be loaded. The record data contains the error code returned by the MOF Compiler. Before the performance counters of this service can be collected by WMI, the MOF file will need to be loaded manually. Contact the vendor of this service for additional information.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>2003</td><td>The MOF file created for the %1 service cannot be deleted as requested. The automatic recovery function requires the MOF file.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>2004</td><td>The Performance registry value %1 string is corrupted. Skip string \&quot;%2\&quot;.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>2005</td><td>No COUNTER/HELP definition for Language %1.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>2006</td><td>The LastCounter and LastHelp values of the performance registry are corrupted and need to be updated. The first and second DWORDs in the Data Section contain the original LastCounter and LastHelp values, respectively, while the third and fourth DWORDs in the Data Section contain the updated new values.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>2007</td><td>Cannot repair performance counters for %1 service. Reinstall the performance counters manually using the LODCTR tool.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3000</td><td>The performance strings in the registry do not match the index values stored in Performance registry key. The first DWORD in the Data section contains the last index value from performance registry key and the second DWORD in the Data section contains the index of the last string.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3001</td><td>The performance counter name string value in the registry is not formatted correctly. The malformed string is %1. The first DWORD in the Data section contains the index value to the malformed string while the second and third DWORDs in the Data section contain the last valid index values.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3002</td><td>The performance counter explain text string value in the registry is not formatted correctly. The malformed string is %1. The first DWORD in the Data section contains the index value to the malformed string while the second and third DWORDs in the Data section contain the last valid index values.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3003</td><td>Unable to install counter strings because the %1 key could not be opened or accessed. The first DWORD in the Data section contains the Win32 error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3004</td><td>Unable to read the %1 registry value. The first DWORD in the Data section contains the Win32 error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3005</td><td>Unable to open the registry key for the performance counter strings defined for the %1 language ID. The first DWORD in the Data section contains the Win32 error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3006</td><td>Unable to read the performance counter strings defined for the %1 language ID. The first DWORD in the Data section contains the Win32 error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3007</td><td>Unable to read the performance counter explain text strings defined for the %1 language ID. The first DWORD in the Data section contains the Win32 error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3008</td><td>Unable to allocate a required memory buffer.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3009</td><td>Installing the performance counter strings for service %1 (%2) failed. The first DWORD in the Data section contains the error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3011</td><td>Unloading the performance counter strings for service %1 (%2) failed. The first DWORD in the Data section contains the error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3012</td><td>The performance strings in the Performance registry value is corrupted when process %1 extension counter provider. The BaseIndex value from the Performance registry is the first DWORD in the Data section, LastCounter value is the second DWORD in the Data section, and LastHelp value is the third DWORD in the Data section.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3013</td><td>Unable to update the performance counter strings defined for the %1 language ID. The first DWORD in the Data section contains the error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3014</td><td>Unable to update the performance counter explain text strings of the %1 language ID. The first DWORD in the Data section contains the error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3015</td><td>Index for %1 is corrupted. The first DWORD in the Data section contains the index value.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3016</td><td>Cannot update %1 value of %2 key. The first DWORD in the Data section contains the error code and the second DWORD contains the updated value.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3017</td><td>Cannot update %1 value of %2 key. The first DWORD in the Data section contains the error code.</td></tr>
+<tr><td>Microsoft-Windows-LoadPerf</td><td>3018</td><td>%1 index range of service %2 is corrupted. The first DWORD in the Data section contains the first index value used and the second DWORD in the Data section contains last index value used.</td></tr>
+</table>

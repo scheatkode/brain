@@ -1,0 +1,22 @@
+# Microsoft-Windows-DateTimeControlPanel
+
+<table>
+<colgroup><col/><col/><col/></colgroup>
+<tr><th>Name</th><th>Id</th><th>Description</th></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1001</td><td>Time zone operation failed because the required time zone names are missing or corrupt. To correct this error, you will need to update the &quot;%1&quot; to have correct values in one of the following subkeys: &quot;%2&quot; or &quot;%3&quot;.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1002</td><td>Time zone operation failed because the required time zone data is missing or corrupt. To correct this error, you will need to update the values of the &quot;%1&quot; to have a correct value in the &quot;%2&quot; subkey.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1003</td><td>The attempt to set the system time failed with the following parameters: wYear: %1, wMonth: %2, wDayOfWeek: %3, wDay: %4, wHour: %5, wMinute: %6, wSecond: %7, wMilliseconds: %8. SetLocalTime () returned error. Error code is %9.  Error message is: &quot;%10&quot;.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1004</td><td>The attempt to set the time zone with the following parameters failed. Bias: %1 minute(s), Standard name: &quot;%2&quot;, StandardDate.wYear: %3, StandardDate.wMonth: %4, StandardDate.wDayOfWeek: %5, StandardDate.wDay: %6, StandardDate.wHour: %7, StandardDate.wMinute: %8, StandardDate.wSecond: %9, StandardDate.wMilliseconds: %10, Standard bias: %11 minute(s), Daylight saving name: &quot;%12&quot;, DaylightDate.wYear: %13, DaylightDate.wMonth: %14, DaylightDate.wDayOfWeek: %15, DaylightDate.wDay: %16, DaylightDate.wHour: %17, DaylightDate.wMinute: %18, DaylightDate.wSecond: %19, DaylightDate.wMilliseconds: %20, Daylight saving bias: %21 minute(s). SetTimeZoneInformation() returned error.  Error code is %22. Error message is: &quot;%23&quot;.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1004</td><td>The attempt to set the system time zone to &quot;%1&quot; returned error. Error code is %2. Error message is: &quot;%3&quot;.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1005</td><td>The attempt to set the system time zone to &quot;%1&quot; returned error. Error code is %2. The time zone has been made obsolete.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1006</td><td>The attempt to set the system time zone to &quot;%1&quot; returned error. Error code is %2. The time zone is unrecognized.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>1007</td><td>The attempt to set the system time zone to &quot;%1&quot; returned error. Error code is %2. The time zone data is unreadable.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>20000</td><td>The system time was set successfully with the following parameters: wYear: %1, wMonth: %2, wDayOfWeek: %3, wDay: %4, wHour: %5, wMinute: %6, wSecond: %7, wMilliseconds: %8.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>20001</td><td>The system time zone was set successfully to &quot;%1&quot;.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>30001</td><td>The system time was set successfully with the following parameters: wYear: %1, wMonth: %2, wDayOfWeek: %3, wDay: %4, wHour: %5, wMinute: %6, wSecond: %7, wMilliseconds: %8.</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>30002</td><td>The time zone was set successfully with the following parameters. Bias: %1 minute(s), Standard name: &quot;%2&quot;, StandardDate.wYear: %3, StandardDate.wMonth: %4, StandardDate.wDayOfWeek: %5, StandardDate.wDay: %6, StandardDate.wHour: %7, StandardDate.wMinute: %8, StandardDate.wSecond: %9, StandardDate.wMilliseconds: %10, Standard bias: %11 minute(s), Daylight saving name: &quot;%12&quot;, DaylightDate.wYear: %13, DaylightDate.wMonth: %14, DaylightDate.wDayOfWeek: %15, DaylightDate.wDay: %16, DaylightDate.wHour: %17, DaylightDate.wMinute: %18, DaylightDate.wSecond: %19, DaylightDate.wMilliseconds: %20, Daylight saving bias: %21 minute(s).</td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>30010</td><td></td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>30011</td><td></td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>30012</td><td></td></tr>
+<tr><td>Microsoft-Windows-DateTimeControlPanel</td><td>30013</td><td></td></tr>
+</table>
